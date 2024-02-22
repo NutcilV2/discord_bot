@@ -7,7 +7,7 @@ module.exports = {
 	async execute(interaction, db) {
 		await interaction.reply('Pong!');
 
-    db.query('SELECT * FROM your_table LIMIT 1', (error, results) => {
+    db.query('SELECT * FROM events LIMIT 1', (error, results) => {
       if (error) throw error;
 
       // Assuming 'results' is not empty and your table has columns you want to display
