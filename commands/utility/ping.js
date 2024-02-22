@@ -7,12 +7,12 @@ module.exports = {
 	async execute(interaction, connection) {
 		//await interaction.reply('Pong!');
 
-    connection.query('SELECT * FROM events', (error, results, fields) => {
-    if (error) {
-      console.error('An error occurred while fetching users:', error);
-      return;
-    }
-    await interaction.reply('Events: ', results);
-  });
+    await connection.query('SELECT * FROM events', (error, results, fields) => {
+      if (error) {
+        console.error('An error occurred while fetching users:', error);
+        return;
+      }
+      await interaction.reply('Events: ', results);
+    });
 	},
 };
