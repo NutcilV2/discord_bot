@@ -4,7 +4,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('ping')
 		.setDescription('Replies with Pong!'),
-	async execute(interaction) {
+	async execute(interaction, db) {
 		await interaction.reply('Pong!');
 
     db.query('SELECT * FROM your_table LIMIT 1', (error, results) => {
