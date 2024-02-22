@@ -5,14 +5,14 @@ module.exports = {
 		.setName('ping')
 		.setDescription('Replies with Pong!'),
 	async execute(interaction, connection) {
-		await interaction.reply('Pong!');
+		//await interaction.reply('Pong!');
 
     connection.query('SELECT * FROM events', (error, results, fields) => {
     if (error) {
       console.error('An error occurred while fetching users:', error);
       return;
     }
-    console.log('Users:', results);
+    await interaction.reply('Events: ', results);
   });
 	},
 };
