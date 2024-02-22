@@ -1,4 +1,4 @@
-import { config } from 'dotenv';
+const { config } = require('dotenv');
 
 // Require the necessary discord.js classes
 const { Client, Events, GatewayIntentBits } = require('discord.js');
