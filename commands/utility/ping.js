@@ -5,8 +5,6 @@ module.exports = {
 		.setName('ping')
 		.setDescription('Replies with Pong!'),
 	async execute(interaction, connection) {
-		//await interaction.reply('Pong!');
-
     // Convert connection.query to use Promises
     const queryPromise = () => new Promise((resolve, reject) => {
         connection.query('SELECT * FROM events', (error, results, fields) => {
