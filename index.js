@@ -4,6 +4,7 @@ const { token } = require('./config.json');
 const { config } = require('dotenv');
 const fs = require('node:fs');
 const path = require('node:path');
+const db = require('./db');
 
 config();
 
@@ -42,7 +43,7 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 
 	try {
-		await command.execute(interaction);
+		await command.execute(interaction, db);
 	} catch (error) {
 		console.error(error);
 		if (interaction.replied || interaction.deferred) {
