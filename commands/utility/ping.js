@@ -3,8 +3,25 @@ const { SlashCommandBuilder } = require('discord.js');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('ping')
-		.setDescription('Replies with Pong!'),
+		.setDescription('Replies with Pong!')
+		.addStringOption(option =>
+        option.setName('date')
+            .setDescription('The date to filter events')
+            .setRequired(false) // This makes the parameter optional
+    );
 	async execute(interaction, connection) {
+		const date = interaction.options.getString('date'); // This will be null if not provided
+
+    if (date) {
+        // Handle the case where a date is provided
+        console.log(`Fetching events for date: ${date}`);
+        // Fetch and list events for the specified date...
+    } else {
+        // Handle the case where no date is provided
+        console.log('Fetching all events');
+        // Fetch and list all events...
+    }
+
     // Convert connection.query to use Promises
     const queryPromise = () => new Promise((resolve, reject) => {
         connection.query('SELECT Event_Id, Event_Title FROM events LIMIT 3', (error, results, fields) => {
