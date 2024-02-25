@@ -18,10 +18,10 @@ module.exports = {
 
     try {
         const results = await queryPromise();
-				console.log(results)
+				const titlesString = results.map(item => item.Event_Title).join('\n');
         // Ensure results are formatted in a way that can be sent in a message
         // For example, converting the results to a string or formatting them as needed
-        const replyMessage = `Events: ${JSON.stringify(results)}`;
+        const replyMessage = `Events: ${titlesString}`;
         await interaction.reply(replyMessage);
     } catch (error) {
         console.error('An error occurred:', error);
