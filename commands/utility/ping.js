@@ -7,7 +7,7 @@ module.exports = {
 	async execute(interaction, connection) {
     // Convert connection.query to use Promises
     const queryPromise = () => new Promise((resolve, reject) => {
-        connection.query('SELECT TOP 10 Event_Title FROM events', (error, results, fields) => {
+        connection.query('SELECT Event_Title FROM events LIMIT 3', (error, results, fields) => {
             if (error) {
                 reject(error);
             } else {
