@@ -10,21 +10,28 @@ module.exports = {
             .setRequired(false) // This makes the parameter optional
     ),
 	async execute(interaction, connection) {
-		const date = interaction.options.getString('date'); // This will be null if not provided
-
-    if (date) {
-        // Handle the case where a date is provided
-        console.log(`Fetching events for date: ${date}`);
-        // Fetch and list events for the specified date...
+    if (!interaction.options.getString('date')) {
+			const today = new Date();
+			const formattedDate = (today.getMonth() + 1).toString().padStart(2, '0') + '/' + today.getDate().toString().padStart(2, '0') + '/' + today.getFullYear();
     } else {
-        // Handle the case where no date is provided
-        console.log('Fetching all events');
-        // Fetch and list all events...
-    }
+			const tempDate = interaction.options.getString('date');
+			const date = tempDate.replace(/-/g, '/');
+
+			const parts = date.split('/');
+			const formattedMonth = parts[0].padStart(2, '0');
+			const formattedDay = parts[1].padStart(2, '0');
+			let formattedYear = parts[2];
+
+			if (formattedYear.length === 2) {
+			    formattedYear = parseInt(formattedYear, 10) < 50 ? '20' + formattedYear : '19' + formattedYear;
+			}
+
+			const formattedDate = [formattedMonth, formattedDay, formattedYear].join('/');
+		}
 
     // Convert connection.query to use Promises
     const queryPromise = () => new Promise((resolve, reject) => {
-        connection.query('SELECT Event_Id, Event_Title FROM events LIMIT 3', (error, results, fields) => {
+        connection.query(`SELECT Event_Id, Event_Title FROM events WHERE Event_Date = ${formattedDate} LIMIT 5`, (error, results, fields) => {
             if (error) {
                 reject(error);
             } else {
