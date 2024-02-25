@@ -3,12 +3,12 @@ const { SlashCommandBuilder } = require('discord.js');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('ping')
-		.setDescription('Replies with Pong!')
+		.setDescription('Replies with Pong!'),
 		.addStringOption(option =>
         option.setName('date')
             .setDescription('The date to filter events')
             .setRequired(false) // This makes the parameter optional
-    );
+    ),
 	async execute(interaction, connection) {
 		const date = interaction.options.getString('date'); // This will be null if not provided
 
