@@ -5,10 +5,10 @@ module.exports = {
 		.setName('delete_old_events')
 		.setDescription('Scheduled Event that will delete all events before the current date'),
 	async execute(interaction, connection, isScheduled = false) {
-		if (!isScheduled) {
-        await interaction.reply('Only the Scheduler can run this command');
-    		return;
-    }
+		//if (!isScheduled) {
+    //    await interaction.reply('Only the Scheduler can run this command');
+    //		return;
+    //}
 
 		let formattedDate = (today.getMonth() + 1).toString().padStart(2, '0') + '/' + today.getDate().toString().padStart(2, '0') + '/' + today.getFullYear();
 
