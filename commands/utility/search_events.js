@@ -91,7 +91,7 @@ module.exports = {
 
 			formattedDate = [formattedMonth, formattedDay, formattedYear].join('/');
       const queryString = `SELECT Event_Id, Event_Title FROM events WHERE Event_Date = '${formattedDate}' AND ${likeConditions.join(' AND ')} LIMIT ${count}`;
-      
+
 			queryPromise = () => new Promise((resolve, reject) => {
 			    connection.query(queryString, (error, results, fields) => {
 			        if (error) {
