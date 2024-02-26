@@ -52,6 +52,7 @@ module.exports = {
 		let queryPromise;
     if (!interaction.options.getString('date')) {
 			const filter = interaction.options.getString('filter');
+			console.log(filter);
 
 			queryPromise = () => new Promise((resolve, reject) => {
 			    // Parse the filter string to separate terms
