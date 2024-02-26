@@ -10,9 +10,10 @@ module.exports = {
             .setRequired(false) // This makes the parameter optional
     ),
 	async execute(interaction, connection) {
+		let formattedDate;
     if (!interaction.options.getString('date')) {
 			const today = new Date();
-			const formattedDate = (today.getMonth() + 1).toString().padStart(2, '0') + '/' + today.getDate().toString().padStart(2, '0') + '/' + today.getFullYear();
+			formattedDate = (today.getMonth() + 1).toString().padStart(2, '0') + '/' + today.getDate().toString().padStart(2, '0') + '/' + today.getFullYear();
     } else {
 			const tempDate = interaction.options.getString('date');
 			const date = tempDate.replace(/-/g, '/');
@@ -26,7 +27,7 @@ module.exports = {
 			    formattedYear = parseInt(formattedYear, 10) < 50 ? '20' + formattedYear : '19' + formattedYear;
 			}
 
-			const formattedDate = [formattedMonth, formattedDay, formattedYear].join('/');
+			formattedDate = [formattedMonth, formattedDay, formattedYear].join('/');
 		}
 
     // Convert connection.query to use Promises
