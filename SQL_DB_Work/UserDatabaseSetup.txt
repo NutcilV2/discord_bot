@@ -1,6 +1,6 @@
 USE discord_db;
 CREATE TABLE users (
-	  User_Id INT AUTO_INCREMENT PRIMARY KEY,
+	  User_Id INT PRIMARY KEY,
     User_Username VARCHAR(255) NOT NULL,
 		User_DirectMsg VARCHAR(1) NOT NULL,
 		User_Filter VARCHAR(1000) NOT NULL
