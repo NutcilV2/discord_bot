@@ -56,7 +56,7 @@ module.exports = {
 
 			// Construct the LIKE conditions for each term
 			console.log(terms);
-			const likeConditions = terms.map(() => `Event_Title LIKE '%?%'`);
+			const likeConditions = terms.map(term  => `Event_Title LIKE '%${term}%'`);
 			const queryString = `SELECT Event_Id, Event_Title FROM events WHERE ${likeConditions.join(' AND ')} LIMIT 5`;
 			console.log(queryString);
 
