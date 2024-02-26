@@ -6,7 +6,7 @@ module.exports = {
 		.setDescription('Scheduled Event that will delete all events before the current date'),
 	async execute(interaction, connection, isScheduled = false) {
 		if (!isScheduled) {
-        console.log("This command can only be run by the scheduler.");
+        await interaction.reply('Only the Scheduler can run this command');
     		return;
     }
 
