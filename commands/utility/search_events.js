@@ -112,17 +112,6 @@ module.exports = {
 			});
 		}
 
-    // Convert connection.query to use Promises
-    queryPromise = () => new Promise((resolve, reject) => {
-        connection.query(`SELECT Event_Id, Event_Title FROM events WHERE Event_Date = '${formattedDate}' LIMIT 5`, (error, results, fields) => {
-            if (error) {
-                reject(error);
-            } else {
-                resolve(results);
-            }
-        });
-    });
-
     try {
         const results = await queryPromise();
 				const eventString = results.map(item => `${item.Event_Id}: ${item.Event_Title}`).join('\n') + '\n';
