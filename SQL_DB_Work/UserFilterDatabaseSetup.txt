@@ -1,5 +1,0 @@
-USE discord_db;
-CREATE TABLE events (
-	  User_Id INT AUTO_INCREMENT PRIMARY KEY,
-    User_Username VARCHAR(255) NOT NULL
-);
