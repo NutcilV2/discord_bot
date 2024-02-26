@@ -33,7 +33,7 @@ module.exports = {
     // Convert connection.query to use Promises
 		console.log(formattedDate)
     const queryPromise = () => new Promise((resolve, reject) => {
-        connection.query(`SELECT Event_Id, Event_Title FROM events WHERE Event_Date = ${formattedDate} LIMIT 5`, (error, results, fields) => {
+        connection.query(`SELECT Event_Id, Event_Title FROM events WHERE Event_Date = '${formattedDate}' LIMIT 5`, (error, results, fields) => {
             if (error) {
                 reject(error);
             } else {
