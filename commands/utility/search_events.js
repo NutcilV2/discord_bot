@@ -50,22 +50,19 @@ module.exports = {
 	async execute(interaction, connection) {
 		let formattedDate;
 		let queryPromise;
-    if (!interaction.options.getString('date')) {
-			const filter = interaction.options.getString('filter');
-			const terms = parseFilterString(filter).map(term => term.replace(/"/g, '')); // Remove quotes from terms
 
-			// Construct the LIKE conditions for each term
+    const filter = interaction.options.getString('filter');
+    const terms = parseFilterString(filter).map(term => term.replace(/"/g, '')); // Remove quotes from terms
+    const likeConditions = terms.map(term  => `Event_Title LIKE '%${term}%'`);
+
+
+    if (!interaction.options.getString('date')) {
 			console.log(terms);
 			const likeConditions = terms.map(term  => `Event_Title LIKE '%${term}%'`);
 			const queryString = `SELECT Event_Id, Event_Title FROM events WHERE ${likeConditions.join(' AND ')} LIMIT 5`;
 			console.log(queryString);
 
 			queryPromise = () => new Promise((resolve, reject) => {
-			    // Parse the filter string to separate terms
-			    const terms = parseFilterString(filter).map(term => term.replace(/"/g, '')); // Remove quotes from terms
-
-			    // Construct the LIKE conditions for each term
-			    const likeConditions = terms.map(term  => `Event_Title LIKE '%${term}%'`);
 			    const queryString = `SELECT Event_Id, Event_Title FROM events WHERE ${likeConditions.join(' AND ')} LIMIT 5`;
 
 			    connection.query(queryString, (error, results, fields) => {
@@ -92,17 +89,9 @@ module.exports = {
 			formattedDate = [formattedMonth, formattedDay, formattedYear].join('/');
 
 			queryPromise = () => new Promise((resolve, reject) => {
-			    // Parse the filter string to separate terms
-			    const terms = parseFilterString(filter).map(term => term.replace(/"/g, '')); // Remove quotes from terms
-
-			    // Construct the LIKE conditions for each term
-			    const likeConditions = terms.map(term  => `Event_Title LIKE '%${term}%'`);
 			    const queryString = `SELECT Event_Id, Event_Title FROM events WHERE Event_Date = '${formattedDate}' AND ${likeConditions.join(' AND ')} LIMIT 5`;
 
-			    // Map each term to its respective LIKE pattern
-			    const queryParameters = terms.map(term => `%${term}%`);
-
-			    connection.query(queryString, queryParameters, (error, results, fields) => {
+			    connection.query(queryString, (error, results, fields) => {
 			        if (error) {
 			            reject(error);
 			        } else {
