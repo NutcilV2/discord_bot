@@ -4,7 +4,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('delete_old_events')
 		.setDescription('Scheduled Event that will delete all events before the current date'),
-	async execute(interaction, connection, { isScheduled = false }) {
+	async execute(interaction, connection, isScheduled = false) {
 		if (!isScheduled) {
         console.log("This command can only be run by the scheduler.");
     		return;
