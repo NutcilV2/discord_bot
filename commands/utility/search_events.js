@@ -65,10 +65,8 @@ module.exports = {
 			    const terms = parseFilterString(filter).map(term => term.replace(/"/g, '')); // Remove quotes from terms
 
 			    // Construct the LIKE conditions for each term
-			    const likeConditions = terms.map(() => `Event_Title LIKE '%?%'`);
+			    const likeConditions = terms.map(term  => `Event_Title LIKE '%${term}%'`);
 			    const queryString = `SELECT Event_Id, Event_Title FROM events WHERE ${likeConditions.join(' AND ')} LIMIT 5`;
-			    // Map each term to its respective LIKE pattern
-			    const queryParameters = terms.map(term => `%${term}%`);
 
 			    connection.query(queryString, queryParameters, (error, results, fields) => {
 			        if (error) {
