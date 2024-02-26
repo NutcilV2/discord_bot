@@ -2,13 +2,8 @@ const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('events')
-		.setDescription('Gives you all the events for a specific date')
-		.addStringOption(option =>
-        option.setName('date')
-            .setDescription('The date to filter events')
-            .setRequired(false) // This makes the parameter optional
-    ),
+		.setName('delete_old_events')
+		.setDescription('Scheduled Event that will delete all events before the current date'),
 	async execute(interaction, connection, { isScheduled = false }) {
 		if (!isScheduled) {
         console.log("This command can only be run by the scheduler.");
