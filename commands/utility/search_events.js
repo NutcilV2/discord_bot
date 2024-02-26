@@ -42,6 +42,11 @@ module.exports = {
             .setDescription('Words to search for')
             .setRequired(true)
     )
+    .addStringOption(option =>
+        option.setName('count')
+            .setDescription('The amount of events returned')
+            .setRequired(false)
+    )
 		.addStringOption(option =>
         option.setName('date')
             .setDescription('The date to filter events')
@@ -55,16 +60,14 @@ module.exports = {
     const terms = parseFilterString(filter).map(term => term.replace(/"/g, '')); // Remove quotes from terms
     const likeConditions = terms.map(term  => `Event_Title LIKE '%${term}%'`);
 
+    let count = 10;
+    if(interaction.options.getString('count')) { count = interaction.options.getString('count'); }
+
 
     if (!interaction.options.getString('date')) {
-			console.log(terms);
-			const likeConditions = terms.map(term  => `Event_Title LIKE '%${term}%'`);
-			const queryString = `SELECT Event_Id, Event_Title FROM events WHERE ${likeConditions.join(' AND ')} LIMIT 5`;
-			console.log(queryString);
+			const queryString = `SELECT Event_Id, Event_Title FROM events WHERE ${likeConditions.join(' AND ')} LIMIT ${count}`;
 
 			queryPromise = () => new Promise((resolve, reject) => {
-			    const queryString = `SELECT Event_Id, Event_Title FROM events WHERE ${likeConditions.join(' AND ')} LIMIT 5`;
-
 			    connection.query(queryString, (error, results, fields) => {
 			        if (error) {
 			            reject(error);
@@ -87,10 +90,9 @@ module.exports = {
 			}
 
 			formattedDate = [formattedMonth, formattedDay, formattedYear].join('/');
-
+      const queryString = `SELECT Event_Id, Event_Title FROM events WHERE Event_Date = '${formattedDate}' AND ${likeConditions.join(' AND ')} LIMIT ${count}`;
+      
 			queryPromise = () => new Promise((resolve, reject) => {
-			    const queryString = `SELECT Event_Id, Event_Title FROM events WHERE Event_Date = '${formattedDate}' AND ${likeConditions.join(' AND ')} LIMIT 5`;
-
 			    connection.query(queryString, (error, results, fields) => {
 			        if (error) {
 			            reject(error);
