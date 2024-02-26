@@ -10,7 +10,8 @@ module.exports = {
     //		return;
     //}
 
-		let formattedDate = (today.getMonth() + 1).toString().padStart(2, '0') + '/' + today.getDate().toString().padStart(2, '0') + '/' + today.getFullYear();
+		const today = new Date();
+		const formattedDate = (today.getMonth() + 1).toString().padStart(2, '0') + '/' + today.getDate().toString().padStart(2, '0') + '/' + today.getFullYear();
 
     // Convert connection.query to use Promises
 		const deleteEventsBeforeDate = (formattedDate) => new Promise((resolve, reject) => {
