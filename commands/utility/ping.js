@@ -2,8 +2,8 @@ const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('ping')
-		.setDescription('Replies with Pong!')
+		.setName('events')
+		.setDescription('Gives you all the events for a specific date')
 		.addStringOption(option =>
         option.setName('date')
             .setDescription('The date to filter events')
@@ -31,7 +31,6 @@ module.exports = {
 		}
 
     // Convert connection.query to use Promises
-		console.log(formattedDate)
     const queryPromise = () => new Promise((resolve, reject) => {
         connection.query(`SELECT Event_Id, Event_Title FROM events WHERE Event_Date = '${formattedDate}' LIMIT 5`, (error, results, fields) => {
             if (error) {
