@@ -52,7 +52,12 @@ module.exports = {
 		let queryPromise;
     if (!interaction.options.getString('date')) {
 			const filter = interaction.options.getString('filter');
-			console.log(filter);
+			const terms = parseFilterString(filter).map(term => term.replace(/"/g, '')); // Remove quotes from terms
+
+			// Construct the LIKE conditions for each term
+			const likeConditions = terms.map(() => `Event_Title LIKE '%?%'`);
+			const queryString = `SELECT Event_Id, Event_Title FROM events WHERE ${likeConditions.join(' AND ')} LIMIT 5`;
+			console.log(queryString);
 
 			queryPromise = () => new Promise((resolve, reject) => {
 			    // Parse the filter string to separate terms
@@ -61,7 +66,6 @@ module.exports = {
 			    // Construct the LIKE conditions for each term
 			    const likeConditions = terms.map(() => `Event_Title LIKE '%?%'`);
 			    const queryString = `SELECT Event_Id, Event_Title FROM events WHERE ${likeConditions.join(' AND ')} LIMIT 5`;
-					console.log(queryString);
 			    // Map each term to its respective LIKE pattern
 			    const queryParameters = terms.map(term => `%${term}%`);
 
