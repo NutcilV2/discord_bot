@@ -25,7 +25,7 @@ module.exports = {
 
 			try {
 					const results = await queryPromise();
-					const replyMessage = `You've been added to the list`;
+					const replyMessage = `You've been [REMOVED] to the list`;
 					await interaction.reply(replyMessage);
 			} catch (error) {
 					console.error('An error occurred:', error);
