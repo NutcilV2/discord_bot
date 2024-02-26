@@ -2,8 +2,8 @@ const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('join_msg_list')
-        .setDescription('Adds you to the private messaging list'),
+        .setName('leave_msg_list')
+        .setDescription('Removes you from the private messaging list'),
     async execute(interaction, connection) {
 			const user_id = interaction.user.id;
 			const user_username = interaction.user.username;
@@ -11,8 +11,8 @@ module.exports = {
 			const queryPromise = () => new Promise((resolve, reject) => {
 					const sql = `
 							INSERT INTO users (User_Id, User_Username, User_DirectMsg, User_Filter)
-							VALUES (?, ?, 'T', '')
-							ON DUPLICATE KEY UPDATE User_DirectMsg = 'T';
+							VALUES (?, ?, 'F', '')
+							ON DUPLICATE KEY UPDATE User_DirectMsg = 'F';
 					`;
 					connection.query(sql, [user_id, user_username], (error, results, fields) => {
 							if (error) {
