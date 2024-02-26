@@ -68,7 +68,7 @@ module.exports = {
 			    const likeConditions = terms.map(term  => `Event_Title LIKE '%${term}%'`);
 			    const queryString = `SELECT Event_Id, Event_Title FROM events WHERE ${likeConditions.join(' AND ')} LIMIT 5`;
 
-			    connection.query(queryString, queryParameters, (error, results, fields) => {
+			    connection.query(queryString, (error, results, fields) => {
 			        if (error) {
 			            reject(error);
 			        } else {
