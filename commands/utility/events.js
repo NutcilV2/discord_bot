@@ -24,19 +24,11 @@ module.exports = {
         try {
             const users = await fetchUsersWithDirectMsgEnabled(connection, interaction.user.id);
             for (const user of users) {
-                const events = await fetchRelevantEventsForUser(connection, user, formattedDate);
+                const events = await fetchRelevantEventsForUserWithoutFilter(connection, user, formattedDate);
                 const eventString = events.map(e => `${e.Event_Id}: ${e.Event_Title}`).join('\n');
                 const messageContent = eventString ? `Your events:\n${eventString}` : 'No upcoming events for you.';
                 // Placeholder for sending DM; implement based on your bot's functionality
                 console.log(`Sending to ${user.User_Username}: ${messageContent}`);
-
-								client.users.fetch(user.User_Id)
-							  .then(user => {
-							    user.send({ content: `${messageContent}` })
-							      .then(() => console.log(`Successfully sent a DM to ${user.tag}.`))
-							      .catch(error => console.error(`Could not send DM to ${user.tag}.`, error));
-							  })
-							  .catch(error => console.error(`Could not fetch user with ID ${userId}.`, error));
             }
 						console.error('Sent all the Direct messages');
         } catch (error) {
@@ -66,6 +58,19 @@ async function fetchRelevantEventsForUser(connection, user, beforeDate) {
 		} else {
 				queryString = `SELECT Event_Id, Event_Title FROM events WHERE Event_Date = '${beforeDate}' AND (${likeConditions.join(' OR ')})`;
 		}
+		console.log(queryString);
+
+    return new Promise((resolve, reject) => {
+        connection.query(queryString, (error, results) => {
+            if (error) reject(error);
+            else resolve(results); // Filter these results based on `user.User_Filter` if necessary
+        });
+    });
+}
+
+async function fetchRelevantEventsForUserWithoutFilter(connection, beforeDate) {
+    // Assuming `User_Filter` affects the event selection; adjust query as needed
+		let queryString = `SELECT Event_Id, Event_Title FROM events WHERE Event_Date = '${beforeDate}'`;
 		console.log(queryString);
 
     return new Promise((resolve, reject) => {
