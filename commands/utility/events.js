@@ -20,11 +20,8 @@ module.exports = {
             .setRequired(false) // This makes the parameter optional
     ),
 	async execute(interaction, connection) {
-		let count = 10;
-    if(interaction.options.getString('count')) { count = interaction.options.getString('count'); }
-
-		let apply_filter = true;
-		if(interaction.options.getString('apply_filter')) { apply_filter = interaction.options.getString('apply_filter'); }
+		const count = interaction.options.getString('count') ?? 10;
+		const applyFilter = interaction.options.getBoolean('apply_filter') ?? true;
 
 		let formattedDate;
     if (!interaction.options.getString('date')) {
