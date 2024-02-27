@@ -14,15 +14,6 @@ module.exports = {
         const rawInput = interaction.options.getString('filter');
         let filtersToAdd = sanitizeInput(rawInput).split(',').map(filter => sanitizeInput(filter)); // Convert to array and trim whitespace
 
-        // Check if the command was used in a server
-        console.log(interaction.channel.type)
-        if (interaction.channel.type === 0) {
-            // Send a DM to the user advising to use personal commands in DMs
-            await interaction.user.send('Please use personal commands like `add_filter` in DMs to avoid cluttering peoples servers.');
-            // Optionally, reply in the server to acknowledge the command (without cluttering with details)
-            await interaction.reply('I\'ve sent you a DM with more information.');
-        }
-
         // Fetch the current filters for the user
         const fetchFilters = () => new Promise((resolve, reject) => {
             const sql = `SELECT User_Filter FROM users WHERE User_Id = ?;`;
