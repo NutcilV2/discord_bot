@@ -15,6 +15,7 @@ module.exports = {
         let filtersToAdd = sanitizeInput(rawInput).split(',').map(filter => sanitizeInput(filter)); // Convert to array and trim whitespace
 
         // Check if the command was used in a server
+        console.log(interaction.channel.type)
         if (interaction.channel.type === 'GUILD_TEXT') {
             // Send a DM to the user advising to use personal commands in DMs
             await interaction.user.send('Please use personal commands like `add_filter` in DMs to avoid cluttering peoples servers.');
