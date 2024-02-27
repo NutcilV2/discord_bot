@@ -22,7 +22,6 @@ module.exports = {
 			});
 
 			try {
-          await interaction.reply("Balls");
 					const results = await queryPromise();
           let filterString;
           console.log(results[0].User_Filter);
@@ -32,7 +31,7 @@ module.exports = {
 
           const messageContent = filterString ? `Your Filters:\n${filterString}` : 'You dont have any Filters';
           console.log(messageContent);
-					//await interaction.reply(replyMessage);
+					await interaction.reply(messageContent);
 			} catch (error) {
 					console.error('An error occurred:', error);
 					await interaction.reply('An error occurred while fetching your filter.');
