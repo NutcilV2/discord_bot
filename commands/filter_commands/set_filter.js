@@ -18,9 +18,9 @@ module.exports = {
 					const sql = `
 							INSERT INTO users (User_Id, User_Username, User_DirectMsg, User_Filter)
 							VALUES (?, ?, 'F', '')
-							ON DUPLICATE KEY UPDATE User_Filter = '${filter}';
+							ON DUPLICATE KEY UPDATE User_Filter = ?;
 					`;
-					connection.query(sql, [user_id, user_username], (error, results, fields) => {
+					connection.query(sql, [user_id, user_username, filter], (error, results, fields) => {
 							if (error) {
 									reject(error);
 							} else {
