@@ -16,7 +16,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('events')
         .setDescription('Scheduled Event that will delete all events before the current date'),
-    async execute(client, connection) {
+    async execute(interaction, connection) {
 
         const today = new Date();
         const formattedDate = (today.getMonth() + 1).toString().padStart(2, '0') + '/' + today.getDate().toString().padStart(2, '0') + '/' + today.getFullYear();
