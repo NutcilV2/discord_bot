@@ -4,6 +4,11 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('events')
 		.setDescription('Gives you all the events for a specific date')
+		.addBooleanOption(option =>
+		    option.setName('apply_filter')
+		        .setDescription('Select if you want your filter applied or not. Default = True')
+		        .setRequired(false) // This makes the parameter optional
+		)
 		.addStringOption(option =>
         option.setName('count')
             .setDescription('The amount of events returned')
@@ -17,6 +22,9 @@ module.exports = {
 	async execute(interaction, connection) {
 		let count = 10;
     if(interaction.options.getString('count')) { count = interaction.options.getString('count'); }
+
+		let apply_filter = true;
+		if(interaction.options.getString('apply_filter')) { apply_filter = interaction.options.getString('apply_filter'); }
 
 		let formattedDate;
     if (!interaction.options.getString('date')) {
