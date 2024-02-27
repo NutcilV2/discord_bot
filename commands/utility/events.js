@@ -28,6 +28,7 @@ module.exports = {
                 const eventString = events.map(e => `${e.Event_Id}: ${e.Event_Title}`).join('\n');
                 const messageContent = eventString ? `Your events:\n${eventString}` : 'No upcoming events for you.';
                 // Placeholder for sending DM; implement based on your bot's functionality
+								await interaction.reply(messageContent);
                 console.log(`Sending to ${user.User_Username}: ${messageContent}`);
             }
 						console.error('Sent all the Direct messages');
