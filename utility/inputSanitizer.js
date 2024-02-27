@@ -7,7 +7,7 @@
  */
 function sanitizeInput(input) {
     // Remove single quotes, double quotes, and trim spaces
-    return input.replace(/['"]/g, "").trim();
+    return input.replace(/['"]/g, "").trim().toUpperCase();
 }
 
 module.exports = {
