@@ -48,7 +48,7 @@ module.exports = {
 
     // Convert connection.query to use Promises
     try {
-				const users = await fetchUsersWithDirectMsgEnabled(connection);
+				const users = await fetchUser(connection);
 				const user = users[0];
 
 				let events;
