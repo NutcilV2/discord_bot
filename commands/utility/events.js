@@ -5,11 +5,19 @@ module.exports = {
 		.setName('events')
 		.setDescription('Gives you all the events for a specific date')
 		.addStringOption(option =>
+        option.setName('count')
+            .setDescription('The amount of events returned')
+            .setRequired(false) // This makes the parameter optional
+    )
+		.addStringOption(option =>
         option.setName('date')
             .setDescription('The date to filter events')
             .setRequired(false) // This makes the parameter optional
     ),
 	async execute(interaction, connection) {
+		let count = 10;
+    if(interaction.options.getString('count')) { count = interaction.options.getString('count'); }
+
 		let formattedDate;
     if (!interaction.options.getString('date')) {
 			const today = new Date();
@@ -32,7 +40,7 @@ module.exports = {
 
     // Convert connection.query to use Promises
     const queryPromise = () => new Promise((resolve, reject) => {
-        connection.query(`SELECT Event_Id, Event_Title FROM events WHERE Event_Date = '${formattedDate}' LIMIT 5`, (error, results, fields) => {
+        connection.query(`SELECT Event_Id, Event_Title FROM events WHERE Event_Date = '${formattedDate}' LIMIT ${count}`, (error, results, fields) => {
             if (error) {
                 reject(error);
             } else {
