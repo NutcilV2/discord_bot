@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
+const { sanitizeInput } = require('../../utility/inputSanitizer.js');
 
 function parseFilterString(filter) {
     const terms = [];
@@ -57,7 +58,7 @@ module.exports = {
 		let queryPromise;
 
     const filter = interaction.options.getString('filter').replace(/'/g, "");
-    const terms = parseFilterString(filter).map(term => term.replace(/"/g, '')); // Remove quotes from terms
+    const terms = parseFilterString(sanitizeInput(filter)).map(term => sanitizeInput(term)); // Remove quotes from terms
     const likeConditions = terms.map(term  => `Event_Title LIKE '%${term}%'`);
 
     let count = 10;
