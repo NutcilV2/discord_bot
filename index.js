@@ -11,7 +11,16 @@ const connection = require('./db');
 config();
 
 // Create a new client instance
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({
+		intents: [
+				GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.DirectMessages
+		],
+		partials: [
+				'MESSAGE', 'CHANNEL', 'REACTION'
+		], // Uncomment if you need to handle uncached messages or reactions
+});
 const TOKEN = process.env.DISCORD_TOKEN;
 
 client.commands = new Collection();
