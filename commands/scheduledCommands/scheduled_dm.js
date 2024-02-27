@@ -21,6 +21,14 @@ module.exports = {
                 const messageContent = eventString ? `Your events:\n${eventString}` : 'No upcoming events for you.';
                 // Placeholder for sending DM; implement based on your bot's functionality
                 console.log(`Sending to ${user.User_Username}: ${messageContent}`);
+
+								client.users.fetch(user.User_Id)
+							  .then(user => {
+							    user.send({ content: `${messageContent}` })
+							      .then(() => console.log(`Successfully sent a DM to ${user.tag}.`))
+							      .catch(error => console.error(`Could not send DM to ${user.tag}.`, error));
+							  })
+							  .catch(error => console.error(`Could not fetch user with ID ${userId}.`, error));
             }
         } catch (error) {
             console.error('An error occurred:', error);
