@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
+const { sanitizeInput } = require('../../utility/inputSanitizer');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -10,8 +11,8 @@ module.exports = {
                 .setRequired(true)), // Make sure the filter is required for command execution
     async execute(interaction, connection) {
         const user_id = interaction.user.id; // Get the user's ID
-        let filtersToRemove = interaction.options.getString('filter').replace(/'/g, ""); // Get the filter(s) to remove
-        filtersToRemove = filtersToRemove.split(',').map(filter => filter.trim()); // Convert to array and trim whitespace
+        const rawInput = interaction.options.getString('filter');
+        let filtersToRemove = sanitizeInput(rawInput).split(',').map(filter => sanitizeInput(filter)); // Convert to array and trim whitespace
 
         // Fetch the current filters for the user
         const fetchFilters = () => new Promise((resolve, reject) => {
