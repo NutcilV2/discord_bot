@@ -19,7 +19,7 @@ module.exports = {
             // Send a DM to the user advising to use personal commands in DMs
             await interaction.user.send('Please use personal commands like `add_filter` in DMs to avoid cluttering peoples servers.');
             // Optionally, reply in the server to acknowledge the command (without cluttering with details)
-            return interaction.reply({ content: 'I\'ve sent you a DM with more information.', ephemeral: true });
+            return interaction.reply('I\'ve sent you a DM with more information.');
         }
 
         // Fetch the current filters for the user
