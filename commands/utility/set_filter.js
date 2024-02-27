@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('join_msg_list')
+        .setName('set_filter')
         .setDescription('Adds you to the private messaging list')
         .addStringOption(option =>
             option.setName('filter')
