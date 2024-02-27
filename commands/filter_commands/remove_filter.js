@@ -42,6 +42,7 @@ module.exports = {
             let currentFiltersArray = currentFiltersString.split(',').filter(Boolean); // Split into array and remove any empty strings
 
             // Remove each specified filter from the current filters array
+            console.log(currentFiltersArray);
             filtersToRemove.forEach(filter => {
                 console.log(filter)
                 const index = currentFiltersArray.indexOf(filter);
