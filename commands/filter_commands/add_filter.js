@@ -42,12 +42,9 @@ module.exports = {
             let currentFiltersArray = currentFiltersString.split(',').filter(Boolean).map(filter => filter.trim()); // Split into array and remove any empty strings
 
             // Remove each specified filter from the current filters array
-            console.log(currentFiltersArray);
             filtersToRemove.forEach(filter => {
-                console.log(filter)
-                const index = currentFiltersArray.indexOf(filter);
-                if (index > -1) {
-                    currentFiltersArray.splice(index, 1); // Remove the filter if found
+                if (!currentFiltersArray.includes(filter)) {
+                    currentFiltersArray.push(filter); // Add the filter if not found
                 }
             });
 
