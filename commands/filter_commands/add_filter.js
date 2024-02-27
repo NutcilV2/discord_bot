@@ -16,7 +16,7 @@ module.exports = {
 
         // Check if the command was used in a server
         console.log(interaction.channel.type)
-        if (interaction.channel.type === 'GUILD_TEXT') {
+        if (interaction.channel.type === 0) {
             // Send a DM to the user advising to use personal commands in DMs
             await interaction.user.send('Please use personal commands like `add_filter` in DMs to avoid cluttering peoples servers.');
             // Optionally, reply in the server to acknowledge the command (without cluttering with details)
