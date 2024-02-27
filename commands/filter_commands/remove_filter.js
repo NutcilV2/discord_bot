@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { sanitizeInput } = require('../../utility/inputSanitizer.js');
+const { sanitizeInput } = require('../../../utility/inputSanitizer.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
