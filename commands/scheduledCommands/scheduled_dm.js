@@ -11,7 +11,7 @@ module.exports = {
         //}
 
         const today = new Date();
-        const formattedDate = today.toISOString().slice(0, 10); // YYYY-MM-DD format
+        const formattedDate = (today.getMonth() + 1).toString().padStart(2, '0') + '/' + today.getDate().toString().padStart(2, '0') + '/' + today.getFullYear();
 
         try {
             const users = await fetchUsersWithDirectMsgEnabled(connection);
