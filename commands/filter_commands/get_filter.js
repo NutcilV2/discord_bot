@@ -23,11 +23,12 @@ module.exports = {
 
 			try {
           await interaction.reply("Balls");
-					//const results = await queryPromise();
-          //const filterString = results.map(item => `${item.User_Filter}`).join('\n') + '\n';
+					const results = await queryPromise();
+          const filterString = results.map(item => `${item.User_Filter}`).join('\n') + '\n';
+          console.log(filterString);
 
-					//const replyMessage = `${filterString}`;
-          //const messageContent = replyMessage ? `Your Filters:\n${replyMessage}` : 'You dont have any Filters';
+          const messageContent = filterString ? `Your Filters:\n${filterString}` : 'You dont have any Filters';
+          console.log(messageContent);
 					//await interaction.reply(replyMessage);
 			} catch (error) {
 					console.error('An error occurred:', error);
