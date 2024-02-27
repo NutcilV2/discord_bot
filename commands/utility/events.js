@@ -103,7 +103,7 @@ async function fetchRelevantEventsForUser(connection, user, filterDate) {
     });
 }
 
-async function fetchRelevantEventsForUserWithoutFilter(connection, beforeDate) {
+async function fetchRelevantEventsForUserWithoutFilter(connection, filterDate) {
     // Assuming `User_Filter` affects the event selection; adjust query as needed
 		let queryString = `SELECT Event_Id, Event_Title FROM events WHERE Event_Date = '${filterDate}'`;
 		console.log(queryString);
