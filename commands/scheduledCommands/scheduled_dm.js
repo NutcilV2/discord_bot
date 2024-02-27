@@ -1,5 +1,17 @@
 const { SlashCommandBuilder } = require('discord.js');
 
+function parseFilter(input) {
+    const regex = /(?!\s*$)\s*(?:(?:"([^"]*)")|([^,]+))\s*(?:,|$)/g;
+    let result = [];
+    let match;
+    while ((match = regex.exec(input)) !== null) {
+        // Add matched group 1 or group 2 to the result
+        result.push(match[1] || match[2]);
+    }
+    return result.filter(Boolean); // Filter out any empty strings just in case
+}
+
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('scheduled_dm')
@@ -53,8 +65,13 @@ async function fetchUsersWithDirectMsgEnabled(connection) {
 
 async function fetchRelevantEventsForUser(connection, user, beforeDate) {
     // Assuming `User_Filter` affects the event selection; adjust query as needed
+		const input = user.User_Filter;
+		const parsed = parseFilter(input);
+		const likeConditions = terms.map(term  => `Event_Title LIKE '%${term}%'`);
+		const queryString = `SELECT Event_Id, Event_Title FROM events WHERE Event_Date = '${beforeDate} AND ${likeConditions.join(' OR ')}`;
+
     return new Promise((resolve, reject) => {
-        connection.query(`SELECT Event_Id, Event_Title FROM events WHERE Event_Date = '${beforeDate}'`, (error, results) => {
+        connection.query(queryString, (error, results) => {
             if (error) reject(error);
             else resolve(results); // Filter these results based on `user.User_Filter` if necessary
         });
