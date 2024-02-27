@@ -54,7 +54,7 @@ async function fetchUsersWithDirectMsgEnabled(connection) {
 async function fetchRelevantEventsForUser(connection, user, beforeDate) {
     // Assuming `User_Filter` affects the event selection; adjust query as needed
     return new Promise((resolve, reject) => {
-        connection.query(`SELECT Event_Id, Event_Title FROM events WHERE Event_Date < '${beforeDate}'`, (error, results) => {
+        connection.query(`SELECT Event_Id, Event_Title FROM events WHERE Event_Date = '${beforeDate}'`, (error, results) => {
             if (error) reject(error);
             else resolve(results); // Filter these results based on `user.User_Filter` if necessary
         });
