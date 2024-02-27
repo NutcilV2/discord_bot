@@ -1,5 +1,16 @@
 const { SlashCommandBuilder } = require('discord.js');
 
+function parseFilter(input) {
+    const regex = /(?!\s*$)\s*(?:(?:"([^"]*)")|([^,]+))\s*(?:,|$)/g;
+    let result = [];
+    let match;
+    while ((match = regex.exec(input)) !== null) {
+        // Add matched group 1 or group 2 to the result
+        result.push(match[1] || match[2]);
+    }
+    return result.filter(Boolean); // Filter out any empty strings just in case
+}
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('get_filter')
@@ -26,7 +37,9 @@ module.exports = {
           let filterString;
           console.log(results[0].User_Filter);
           if(results[0].User_Filter) {
-            filterString = results.map(item => `${item.User_Filter}`).join('\n') + '\n';
+            const filter = results[0].User_Filter;
+            const parsed = parseFilter(filter);
+            filterString = parsed.map(item => `${item.User_Filter}`).join('\n') + '\n';
           }
 
           const messageContent = filterString ? `Your Filters:\n${filterString}` : 'You dont have any Filters';
