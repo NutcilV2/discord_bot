@@ -25,7 +25,7 @@ module.exports = {
           await interaction.reply("Balls");
 					const results = await queryPromise();
           const filterString = results.map(item => `${item.User_Filter}`).join('\n') + '\n';
-          console.log(filterString);
+          console.log(results);
 
           const messageContent = filterString ? `Your Filters:\n${filterString}` : 'You dont have any Filters';
           console.log(messageContent);
