@@ -10,7 +10,9 @@ module.exports = {
 
 			const queryPromise = () => new Promise((resolve, reject) => {
 					const sql = `
-							SELECT User_Filter FROM users WHERE User_Id = '${user_id}';
+              INSERT INTO users (User_Id, User_Username, User_DirectMsg, User_Filter)
+              VALUES (?, ?, 'F', '')
+              ON DUPLICATE KEY UPDATE User_Filter = '';
 					`;
 					connection.query(sql, [user_id, user_username], (error, results, fields) => {
 							if (error) {
