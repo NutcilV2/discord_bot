@@ -51,7 +51,7 @@ module.exports = {
 
         try {
             const users = await fetchUsersWithDirectMsgEnabled(connection, interaction.user.id);
-            for (const user of users) {\
+            for (const user of users) {
 								let events;
 								if(applyFilter) {
 										events = await fetchRelevantEventsForUser(connection, user, formattedDate);
