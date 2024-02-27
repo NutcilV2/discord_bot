@@ -66,7 +66,9 @@ module.exports = {
 
 
     if (!interaction.options.getString('date')) {
-			const queryString = `SELECT Event_Id, Event_Title, Event_Date FROM events WHERE ${likeConditions.join(' AND ')} LIMIT ${count}`;
+      const today = new Date();
+      const formattedDate = (today.getMonth() + 1).toString().padStart(2, '0') + '/' + today.getDate().toString().padStart(2, '0') + '/' + today.getFullYear();
+			const queryString = `SELECT Event_Id, Event_Title, Event_Date FROM events WHERE Event_Date >= '${formattedDate}' AND (${likeConditions.join(' OR ')}) LIMIT ${count}`;
 
 			queryPromise = () => new Promise((resolve, reject) => {
 			    connection.query(queryString, (error, results, fields) => {
