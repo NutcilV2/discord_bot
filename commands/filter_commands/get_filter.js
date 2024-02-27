@@ -39,7 +39,7 @@ module.exports = {
           if(results[0].User_Filter) {
             const filter = results[0].User_Filter;
             const parsed = parseFilter(filter);
-            filterString = parsed.map(item => `${item.User_Filter}`).join('\n') + '\n';
+            filterString = parsed.map(item => `${item}`).join('\n') + '\n';
           }
 
           const messageContent = filterString ? `Your Filters:\n${filterString}` : 'You dont have any Filters';
