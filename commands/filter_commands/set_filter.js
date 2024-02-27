@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
+const { sanitizeInput } = require('../../utility/inputSanitizer.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -13,7 +14,7 @@ module.exports = {
 			const user_id = interaction.user.id;
 			const user_username = interaction.user.username;
 
-      const filter = interaction.options.getString('filter').replace(/'/g, "");
+      const filter = sanitizeInput(interaction.options.getString('filter'));
 			const queryPromise = () => new Promise((resolve, reject) => {
 					const sql = `
 							INSERT INTO users (User_Id, User_Username, User_DirectMsg, User_Filter)

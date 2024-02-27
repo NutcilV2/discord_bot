@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
+const { sanitizeInput } = require('../../utility/inputSanitizer.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -10,8 +11,8 @@ module.exports = {
                 .setRequired(true)), // Make sure the filter is required for command execution
     async execute(interaction, connection) {
         const user_id = interaction.user.id; // Get the user's ID
-        let filtersToRemove = interaction.options.getString('filter').replace(/'/g, ""); // Get the filter(s) to remove
-        filtersToRemove = filtersToRemove.split(',').map(filter => filter.trim()); // Convert to array and trim whitespace
+        const rawInput = interaction.options.getString('filter');
+        let filtersToAdd = sanitizeInput(rawInput).split(',').map(filter => sanitizeInput(filter)); // Convert to array and trim whitespace
 
         // Fetch the current filters for the user
         const fetchFilters = () => new Promise((resolve, reject) => {
@@ -39,10 +40,10 @@ module.exports = {
 
         try {
             const currentFiltersString = await fetchFilters();
-            let currentFiltersArray = currentFiltersString.split(',').filter(Boolean).map(filter => filter.trim()); // Split into array and remove any empty strings
+            let currentFiltersArray = currentFiltersString.split(',').filter(Boolean).map(filter => sanitizeInput(filter)); // Split into array and remove any empty strings
 
             // Remove each specified filter from the current filters array
-            filtersToRemove.forEach(filter => {
+            filtersToAdd.forEach(filter => {
                 if (!currentFiltersArray.includes(filter)) {
                     currentFiltersArray.push(filter); // Add the filter if not found
                 }

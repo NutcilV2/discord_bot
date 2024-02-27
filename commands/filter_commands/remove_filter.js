@@ -40,7 +40,7 @@ module.exports = {
 
         try {
             const currentFiltersString = await fetchFilters();
-            let currentFiltersArray = currentFiltersString.split(',').filter(Boolean).map(filter => filter.trim()); // Split into array and remove any empty strings
+            let currentFiltersArray = currentFiltersString.split(',').filter(Boolean).map(filter => sanitizeInput(filter)); // Split into array and remove any empty strings
 
             // Remove each specified filter from the current filters array
             console.log(currentFiltersArray);
