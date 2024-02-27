@@ -1,7 +1,7 @@
 // Require the necessary discord.js classes
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const schedule = require('node-schedule');
-const scheduled_dm = require('./scheduledCommands/scheduled_dm');
+const scheduled_dm = require('./commands/scheduledCommands/scheduled_dm.js');
 const { token } = require('./config.json');
 const { config } = require('dotenv');
 const fs = require('node:fs');
