@@ -25,7 +25,7 @@ module.exports = {
 
 			try {
 					const results = await queryPromise();
-					const replyMessage = `You've removed filter`;
+					const replyMessage = `You've removed your filter`;
 					await interaction.reply(replyMessage);
 			} catch (error) {
 					console.error('An error occurred:', error);
