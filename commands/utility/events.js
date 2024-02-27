@@ -48,12 +48,12 @@ module.exports = {
 
     // Convert connection.query to use Promises
     try {
-				const users = await fetchUser(connection);
-				const user = users[0];
+				const users = await fetchUser(connection, user.id);
+				const selected_user = users[0];
 
 				let events;
 				if (applyFilter) {
-						events = await fetchRelevantEventsForUser(interaction, user, formattedDate, count);
+						events = await fetchRelevantEventsForUser(interaction, selected_user, formattedDate, count);
 				} else {
 						events = await fetchEventsWithoutFilter(interaction, formattedDate, count);
 				}
@@ -115,7 +115,7 @@ async function fetchRelevantEventsForUser(connection, user, beforeDate) {
     });
 }
 
-async function fetchEventsWithoutFilter(connection, user, beforeDate) {
+async function fetchEventsWithoutFilter(connection, beforeDate) {
     // Assuming `User_Filter` affects the event selection; adjust query as needed
 		queryString = `SELECT Event_Id, Event_Title FROM events WHERE Event_Date = '${beforeDate}' AND (${likeConditions.join(' OR ')})`;
 		console.log(queryString);
