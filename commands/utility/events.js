@@ -24,7 +24,7 @@ module.exports = {
         try {
             const users = await fetchUsersWithDirectMsgEnabled(connection, interaction.user.id);
             for (const user of users) {
-                const events = await fetchRelevantEventsForUserWithoutFilter(connection, user, formattedDate);
+                const events = await fetchRelevantEventsForUserWithoutFilter(connection, formattedDate);
                 const eventString = events.map(e => `${e.Event_Id}: ${e.Event_Title}`).join('\n');
                 const messageContent = eventString ? `Your events:\n${eventString}` : 'No upcoming events for you.';
                 // Placeholder for sending DM; implement based on your bot's functionality
