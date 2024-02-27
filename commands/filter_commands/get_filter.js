@@ -26,6 +26,7 @@ module.exports = {
           const filterString = results.map(item => `${item.User_Filter}`).join('\n') + '\n';
 
 					const replyMessage = `${filterString}`;
+          const messageContent = replyMessage ? `Your Filters:\n${replyMessage}` : 'You dont have any Filters';
 					await interaction.reply(replyMessage);
 			} catch (error) {
 					console.error('An error occurred:', error);
