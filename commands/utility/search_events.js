@@ -56,7 +56,7 @@ module.exports = {
 		let formattedDate;
 		let queryPromise;
 
-    const filter = interaction.options.getString('filter');
+    const filter = interaction.options.getString('filter').replace(/'/g, "");
     const terms = parseFilterString(filter).map(term => term.replace(/"/g, '')); // Remove quotes from terms
     const likeConditions = terms.map(term  => `Event_Title LIKE '%${term}%'`);
 
