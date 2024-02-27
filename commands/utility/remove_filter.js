@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('set_filter')
+        .setName('remove_filter')
         .setDescription('Adds you to the private messaging list'),
     async execute(interaction, connection) {
 			const user_id = interaction.user.id;
