@@ -32,8 +32,11 @@ module.exports = {
 							  })
 							  .catch(error => console.error(`Could not fetch user with ID ${userId}.`, error));
             }
+
+						await interaction.reply('Sent Direct Messages');
         } catch (error) {
             console.error('An error occurred:', error);
+						await interaction.reply('An error occurred while Sending Direct Messages');
             // Since this command is not user-invoked, consider logging this error instead of replying to an interaction
         }
     }
