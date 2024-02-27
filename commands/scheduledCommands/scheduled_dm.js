@@ -68,7 +68,7 @@ async function fetchRelevantEventsForUser(connection, user, beforeDate) {
 		const input = user.User_Filter;
 		const parsed = parseFilter(input);
 		const likeConditions = parsed.map(term  => `Event_Title LIKE '%${term}%'`);
-		const queryString = `SELECT Event_Id, Event_Title FROM events WHERE Event_Date = '${beforeDate} AND ${likeConditions.join(' OR ')}`;
+		const queryString = `SELECT Event_Id, Event_Title FROM events WHERE Event_Date = '${beforeDate}' AND ${likeConditions.join(' OR ')}`;
 
     return new Promise((resolve, reject) => {
         connection.query(queryString, (error, results) => {
