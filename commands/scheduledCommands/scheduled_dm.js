@@ -16,13 +16,10 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('scheduled_dm')
         .setDescription('Scheduled Event that will delete all events before the current date'),
-    async execute(interaction, connection, isScheduled = false) {
-        //if (!isScheduled) {
-        //    await interaction.reply('This command can only be run automatically.');
-        //    return;
-        //}
-
-				const client = interaction.client;
+    async execute(client, connection, isScheduled = false) {
+        if (!isScheduled) {
+            return;
+        }
 
         const today = new Date();
         const formattedDate = (today.getMonth() + 1).toString().padStart(2, '0') + '/' + today.getDate().toString().padStart(2, '0') + '/' + today.getFullYear();
@@ -44,11 +41,9 @@ module.exports = {
 							  })
 							  .catch(error => console.error(`Could not fetch user with ID ${userId}.`, error));
             }
-
-						await interaction.reply('Sent Direct Messages');
+						console.error('Sent all the Direct messages');
         } catch (error) {
-            console.error('An error occurred:', error);
-						await interaction.reply('An error occurred while Sending Direct Messages');
+            console.error('An error occurred while Sending Direct Messages:', error);
             // Since this command is not user-invoked, consider logging this error instead of replying to an interaction
         }
     }

@@ -1,5 +1,7 @@
 // Require the necessary discord.js classes
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
+const schedule = require('node-schedule');
+const scheduled_dm = require('./scheduledCommands/scheduled_dm.js');
 const { token } = require('./config.json');
 const { config } = require('dotenv');
 const fs = require('node:fs');
@@ -58,8 +60,14 @@ client.on(Events.InteractionCreate, async interaction => {
 // The distinction between `client: Client<boolean>` and `readyClient: Client<true>` is important for TypeScript developers.
 // It makes some properties non-nullable.
 client.once(Events.ClientReady, readyClient => {
-	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
-  console.log(`${TOKEN}`)
+		console.log(`Ready! Logged in as ${readyClient.user.tag}`);
+	  console.log(`${TOKEN}`)
+
+		// Schedule a task to run at 14:00 every day
+    schedule.scheduleJob('0 08 * * *', function() {
+        console.log('Running scheduled Direct Message task...');
+        scheduled_dm.execute(client, connection, true);
+    });
 });
 
 // Log in to Discord with your client's token
