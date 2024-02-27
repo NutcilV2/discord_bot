@@ -108,7 +108,7 @@ module.exports = {
 
     try {
         const results = await queryPromise();
-				const eventString = results.map(item => `${item.Event_Id}: ${item.Event_Title} on ${item.Event_Date}`).join('\n') + '\n';
+				const eventString = results.map(item => `${item.Event_Id}: ${item.Event_Title} on ${item.Event_Date}`).join('\n');
         // Ensure results are formatted in a way that can be sent in a message
         // For example, converting the results to a string or formatting them as needed
         const replyMessage = eventString ? `Events:\n${eventString}` : 'No upcoming events for that criteria.';
