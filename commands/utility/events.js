@@ -20,8 +20,9 @@ module.exports = {
             .setRequired(false) // This makes the parameter optional
     ),
 	async execute(interaction, connection) {
-		const count = interaction.options.getString('count') ?? 10;
+		const count = parseInt(interaction.options.getString('count'), 10) || 10;
 		const applyFilter = interaction.options.getBoolean('apply_filter') ?? true;
+		const user = interaction.user;
 
 		let formattedDate;
     if (!interaction.options.getString('date')) {
@@ -43,27 +44,86 @@ module.exports = {
 			formattedDate = [formattedMonth, formattedDay, formattedYear].join('/');
 		}
 
-    // Convert connection.query to use Promises
-    const queryPromise = () => new Promise((resolve, reject) => {
-        connection.query(`SELECT Event_Id, Event_Title FROM events WHERE Event_Date = '${formattedDate}' LIMIT ${count}`, (error, results, fields) => {
-            if (error) {
-                reject(error);
-            } else {
-                resolve(results);
-            }
-        });
-    });
 
+
+    // Convert connection.query to use Promises
     try {
-        const results = await queryPromise();
-				const eventString = results.map(item => `${item.Event_Id}: ${item.Event_Title}`).join('\n') + '\n';
+				const users = await fetchUsersWithDirectMsgEnabled(connection);
+				const user = users[0];
+
+				let events;
+				if (applyFilter) {
+						events = await fetchRelevantEventsForUser(interaction, user, formattedDate, count);
+				} else {
+						events = await fetchEventsWithoutFilter(interaction, formattedDate, count);
+				}
+
+				if (events.length === 0) {
+            await interaction.reply('No events found for the specified criteria.');
+            return;
+        }
+
         // Ensure results are formatted in a way that can be sent in a message
         // For example, converting the results to a string or formatting them as needed
-        const replyMessage = `Events: \n${eventString}`;
-        await interaction.reply(replyMessage);
+				const eventString = events.map(item => `${item.Event_Id}: ${item.Event_Title}`).join('\n');
+        await interaction.reply(`Events: \n${eventString}`);
     } catch (error) {
         console.error('An error occurred:', error);
         await interaction.reply('An error occurred while fetching events.');
     }
 	},
 };
+
+function parseFilter(input) {
+    const regex = /(?!\s*$)\s*(?:(?:"([^"]*)")|([^,]+))\s*(?:,|$)/g;
+    let result = [];
+    let match;
+    while ((match = regex.exec(input)) !== null) {
+        // Add matched group 1 or group 2 to the result
+        result.push(match[1] || match[2]);
+    }
+    return result.filter(Boolean); // Filter out any empty strings just in case
+}
+
+async function fetchUser(connection, User_Id) {
+    return new Promise((resolve, reject) => {
+        connection.query(`SELECT User_Id, User_Username, User_Filter FROM users WHERE User_Id = ${User_Id}`, (error, results) => {
+            if (error) reject(error);
+            else resolve(results);
+        });
+    });
+}
+
+async function fetchRelevantEventsForUser(connection, user, beforeDate) {
+    // Assuming `User_Filter` affects the event selection; adjust query as needed
+		const input = user.User_Filter;
+		const parsed = parseFilter(input);
+		const likeConditions = parsed.map(term  => `Event_Title LIKE '%${term}%'`);
+		let queryString;
+		if(!likeConditions) {
+				queryString = `SELECT Event_Id, Event_Title FROM events WHERE Event_Date = '${beforeDate}'`;
+		} else {
+				queryString = `SELECT Event_Id, Event_Title FROM events WHERE Event_Date = '${beforeDate}' AND (${likeConditions.join(' OR ')})`;
+		}
+		console.log(queryString);
+
+    return new Promise((resolve, reject) => {
+        connection.query(queryString, (error, results) => {
+            if (error) reject(error);
+            else resolve(results); // Filter these results based on `user.User_Filter` if necessary
+        });
+    });
+}
+
+async function fetchEventsWithoutFilter(connection, user, beforeDate) {
+    // Assuming `User_Filter` affects the event selection; adjust query as needed
+		queryString = `SELECT Event_Id, Event_Title FROM events WHERE Event_Date = '${beforeDate}' AND (${likeConditions.join(' OR ')})`;
+		console.log(queryString);
+
+    return new Promise((resolve, reject) => {
+        connection.query(queryString, (error, results) => {
+            if (error) reject(error);
+            else resolve(results); // Filter these results based on `user.User_Filter` if necessary
+        });
+    });
+}
