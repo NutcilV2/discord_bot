@@ -43,6 +43,7 @@ module.exports = {
 
             // Remove each specified filter from the current filters array
             filtersToRemove.forEach(filter => {
+                console.log(filter)
                 const index = currentFiltersArray.indexOf(filter);
                 if (index > -1) {
                     currentFiltersArray.splice(index, 1); // Remove the filter if found
