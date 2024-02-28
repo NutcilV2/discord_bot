@@ -32,8 +32,6 @@ function isUserCached(user_id, user_username) {
                     resolve(results);
                 }
             });
-
-            console.log(userCache.has(user_id));
         } else {
             resolve('User already cached'); // Or resolve with an appropriate value/message
         }
