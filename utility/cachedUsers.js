@@ -1,18 +1,29 @@
 const connection = require('./dbConnection');
+const schedule = require('node-schedule');
 
 const userCache = new Set();
 
-// Query to select all user IDs from the database
-const query = 'SELECT User_Id FROM users';
+function refreshUserCache() {
+    userCache.clear(); // Clear the current cache to refresh it
+    const query = 'SELECT User_Id FROM users';
 
-connection.query(query, (error, results, fields) => {
-  if (error) throw error;
+    connection.query(query, (error, results, fields) => {
+        if (error) throw error;
 
-  results.forEach(row => {
-    userCache.add(row.User_Id);
-  });
+        results.forEach(row => {
+            userCache.add(row.User_Id);
+        });
 
-  console.log('Users Cached: ', userCache.size);
+        console.log('Users Cached: ', userCache.size);
+    });
+}
+
+// Refresh the cache immediately upon starting the application
+refreshUserCache();
+
+schedule.scheduleJob('* * * * *', function() {
+    console.log('Refreshing user cache...');
+    refreshUserCache();
 });
 
 
@@ -40,9 +51,12 @@ function isUserCached(user_id, user_username) {
     });
 }
 
+
+
 function cacheUser(user_id) {
     userCache.add(user_id);
 }
+
 
 
 module.exports = {
