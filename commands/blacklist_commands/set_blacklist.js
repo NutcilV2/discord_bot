@@ -18,7 +18,7 @@ module.exports = {
 			const queryPromise = () => new Promise((resolve, reject) => {
 					const sql = `
 							INSERT INTO users (User_Id, User_Username, User_DirectMsg, User_Filter, User_Blacklist)
-							VALUES (?, ?, 'F', '' '')
+							VALUES (?, ?, 'F', '', '')
 							ON DUPLICATE KEY UPDATE User_Blacklist = ?;
 					`;
 					connection.query(sql, [user_id, user_username, filter], (error, results, fields) => {
