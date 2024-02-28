@@ -4,7 +4,7 @@ const { sanitizeInput } = require('../../utility/inputSanitizer.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('set_blacklist')
-        .setDescription('Adds you to the private messaging list')
+        .setDescription('Sets your list of blacklist to blacklist(s)')
         .addStringOption(option =>
             option.setName('blacklist')
                 .setDescription('The Blacklist that you want for events')

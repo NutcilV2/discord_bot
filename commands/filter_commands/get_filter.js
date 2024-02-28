@@ -14,7 +14,7 @@ function parseFilter(input) {
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('get_filter')
-        .setDescription('Adds you to the private messaging list'),
+        .setDescription('Adds filter(s) to your filter list'),
     async execute(interaction, connection, cachedUsers) {
 			const user_id = interaction.user.id;
 			const user_username = interaction.user.username;

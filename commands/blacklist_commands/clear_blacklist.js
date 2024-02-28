@@ -3,7 +3,7 @@ const { SlashCommandBuilder } = require('discord.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('clear_blacklist')
-        .setDescription('Adds you to the private messaging list'),
+        .setDescription('Clears your entire Blacklist List'),
     async execute(interaction, connection, cachedUsers) {
       const user_id = interaction.user.id;
 			const user_username = interaction.user.username;

@@ -4,7 +4,7 @@ const { sanitizeInput } = require('../../utility/inputSanitizer.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('remove_filter')
-        .setDescription('Removes specified filters from your list')
+        .setDescription('Removes specified filter(s) from your list')
         .addStringOption(option =>
             option.setName('filter')
                 .setDescription('The filter(s) you want to remove, separated by commas')

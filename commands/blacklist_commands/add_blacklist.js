@@ -4,7 +4,7 @@ const { sanitizeInput } = require('../../utility/inputSanitizer.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('add_blacklist')
-        .setDescription('Adds specified filters from your list')
+        .setDescription('Adds specified blacklist(s) to your list')
         .addStringOption(option =>
             option.setName('blacklist')
                 .setDescription('The blacklist(s) you want to add, separated by commas')

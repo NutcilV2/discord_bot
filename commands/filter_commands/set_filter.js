@@ -4,7 +4,7 @@ const { sanitizeInput } = require('../../utility/inputSanitizer.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('set_filter')
-        .setDescription('Adds you to the private messaging list')
+        .setDescription('Sets your list of filters to filter(s)')
         .addStringOption(option =>
             option.setName('filter')
                 .setDescription('The Filter that you want for events')

@@ -14,7 +14,7 @@ function parseFilter(input) {
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('get_blacklist')
-        .setDescription('Adds you to the private messaging list'),
+        .setDescription('Adds blacklist(s) to your filter list'),
     async execute(interaction, connection, cachedUsers) {
       const user_id = interaction.user.id;
 			const user_username = interaction.user.username;
