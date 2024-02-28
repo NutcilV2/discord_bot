@@ -16,9 +16,6 @@ connection.query(query, (error, results, fields) => {
 
   // Log the Set to see the user IDs
   console.log(userCache);
-
-  // Remember to close the database connection when you're done
-  connection.end();
 });
 
 
