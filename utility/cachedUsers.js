@@ -19,6 +19,7 @@ function isUserCached(user_id, user_username) {
     return new Promise((resolve, reject) => {
         const cached = userCache.has(user_id);
         if (!cached) {
+            console.log('Caching the users: ', user_id);
             const sql = `
                 INSERT INTO users (User_Id, User_Username, User_DirectMsg, User_Filter, User_Blacklist)
                 VALUES (?, ?, 'F', '', '');
@@ -31,6 +32,8 @@ function isUserCached(user_id, user_username) {
                     resolve(results);
                 }
             });
+
+            console.log(userCache.has(user_id));
         } else {
             resolve('User already cached'); // Or resolve with an appropriate value/message
         }
