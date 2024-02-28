@@ -10,11 +10,11 @@ connection.query(query, (error, results, fields) => {
 
   // Iterate over the results and add each user ID to the Set
   results.forEach(row => {
-    userIds.add(row.User_Id);
+    userCache.add(row.User_Id);
   });
 
   // Log the Set to see the user IDs
-  console.log(userIds);
+  console.log(userCache);
 
   // Remember to close the database connection when you're done
   connection.end();
