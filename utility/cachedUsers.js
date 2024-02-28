@@ -11,6 +11,8 @@ connection.query(query, (error, results, fields) => {
   results.forEach(row => {
     userCache.add(row.User_Id);
   });
+
+  console.log('Users Cached: ', userCache.size);
 });
 
 
