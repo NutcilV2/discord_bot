@@ -14,7 +14,7 @@ module.exports = {
 			const user_id = interaction.user.id;
 			const user_username = interaction.user.username;
 
-      const filter = sanitizeInput(interaction.options.getString('filter'));
+      const filter = sanitizeInput(interaction.options.getString('blacklist'));
 			const queryPromise = () => new Promise((resolve, reject) => {
 					const sql = `
 							INSERT INTO users (User_Id, User_Username, User_DirectMsg, User_Filter, User_Blacklist)
