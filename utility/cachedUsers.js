@@ -16,22 +16,25 @@ connection.query(query, (error, results, fields) => {
 
 
 function isUserCached(user_id, user_username) {
-    const cached = userCache.has(userId);
-    if(!cached) {
-        const sql = `
-              INSERT INTO users (User_Id, User_Username, User_DirectMsg, User_Filter, User_Blacklist)
-              VALUES (?, ?, 'F', '', '');
-        `;
-        connection.query(sql, [user_id, user_username], (error, results) => {
-            if (error) {
-                reject(error);
-            } else {
-                resolve(results);
-            }
-        });
-
-        cacheUser(user_id)
-    }
+    return new Promise((resolve, reject) => {
+        const cached = userCache.has(user_id);
+        if (!cached) {
+            const sql = `
+                INSERT INTO users (User_Id, User_Username, User_DirectMsg, User_Filter, User_Blacklist)
+                VALUES (?, ?, 'F', '', '');
+            `;
+            connection.query(sql, [user_id, user_username], (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    cacheUser(user_id); // Add to cache after successful insertion
+                    resolve(results);
+                }
+            });
+        } else {
+            resolve('User already cached'); // Or resolve with an appropriate value/message
+        }
+    });
 }
 
 function cacheUser(user_id) {
