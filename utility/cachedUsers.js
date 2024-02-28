@@ -10,6 +10,7 @@ connection.query(query, (error, results, fields) => {
 
   // Iterate over the results and add each user ID to the Set
   results.forEach(row => {
+    console.log(row.User_Id);
     userCache.add(row.User_Id);
   });
 
