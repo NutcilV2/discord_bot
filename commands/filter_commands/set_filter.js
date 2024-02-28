@@ -17,8 +17,8 @@ module.exports = {
       const filter = sanitizeInput(interaction.options.getString('filter'));
 			const queryPromise = () => new Promise((resolve, reject) => {
 					const sql = `
-							INSERT INTO users (User_Id, User_Username, User_DirectMsg, User_Filter)
-							VALUES (?, ?, 'F', '')
+							INSERT INTO users (User_Id, User_Username, User_DirectMsg, User_Filter, User_Blacklist)
+							VALUES (?, ?, 'F', '', '')
 							ON DUPLICATE KEY UPDATE User_Filter = ?;
 					`;
 					connection.query(sql, [user_id, user_username, filter], (error, results, fields) => {
