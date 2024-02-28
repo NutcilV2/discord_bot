@@ -50,10 +50,10 @@ module.exports = {
             });
 
             await updateFilters(currentFiltersArray.join(',')); // Update the database with the new filters list
-            await interaction.reply(`The specified filter(s) have been added.`);
+            await interaction.reply(`The specified blacklist(s) have been added.`);
         } catch (error) {
             console.error('An error occurred:', error);
-            await interaction.reply(`The specified filter(s) have been added.`);
+            await interaction.reply(`The specified blacklist(s) have been added.`);
         }
     },
 };

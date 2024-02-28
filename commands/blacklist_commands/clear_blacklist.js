@@ -25,11 +25,11 @@ module.exports = {
 
 			try {
 					const results = await queryPromise();
-					const replyMessage = `You've cleared your filter`;
+					const replyMessage = `You've cleared your blacklist`;
 					await interaction.reply(replyMessage);
 			} catch (error) {
 					console.error('An error occurred:', error);
-					await interaction.reply('An error occurred while clearing your filter.');
+					await interaction.reply('An error occurred while clearing your blacklist.');
 			}
     },
 };

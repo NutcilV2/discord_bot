@@ -53,10 +53,10 @@ module.exports = {
             });
 
             await updateFilters(currentFiltersArray.join(',')); // Update the database with the new filters list
-            await interaction.reply(`The specified filter(s) have been removed.`);
+            await interaction.reply(`The specified blacklist(s) have been removed.`);
         } catch (error) {
             console.error('An error occurred:', error);
-            await interaction.reply('An error occurred while removing your filter(s).');
+            await interaction.reply('An error occurred while removing your blacklist(s).');
         }
     },
 };

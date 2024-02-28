@@ -42,12 +42,12 @@ module.exports = {
             filterString = parsed.map(item => `${item}`).join('\n') + '\n';
           }
 
-          const messageContent = filterString ? `Your Filters:\n${filterString}` : 'You dont have any Filters';
+          const messageContent = filterString ? `Your Blacklists:\n${filterString}` : 'You dont have any blacklists';
           console.log(messageContent);
 					await interaction.reply(messageContent);
 			} catch (error) {
 					console.error('An error occurred:', error);
-					await interaction.reply('An error occurred while fetching your filter.');
+					await interaction.reply('An error occurred while fetching your blacklist.');
 			}
     },
 };

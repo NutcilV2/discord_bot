@@ -32,11 +32,11 @@ module.exports = {
 
 			try {
 					const results = await queryPromise();
-					const replyMessage = `You've set your filter`;
+					const replyMessage = `You've set your blacklist`;
 					await interaction.reply(replyMessage);
 			} catch (error) {
 					console.error('An error occurred:', error);
-					await interaction.reply('An error occurred while updating your filter.');
+					await interaction.reply('An error occurred while updating your blacklist.');
 			}
     },
 };
