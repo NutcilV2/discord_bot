@@ -21,7 +21,7 @@ function refreshUserCache() {
 // Refresh the cache immediately upon starting the application
 refreshUserCache();
 
-schedule.scheduleJob('* * * * *', function() {
+schedule.scheduleJob('0 * * * *', function() {
     console.log('Refreshing user cache...');
     refreshUserCache();
 });
