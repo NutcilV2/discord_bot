@@ -10,7 +10,10 @@ module.exports = {
                 .setDescription('The filter(s) you want to remove, separated by commas')
                 .setRequired(true)), // Make sure the filter is required for command execution
     async execute(interaction, connection, cachedUsers) {
-        const user_id = interaction.user.id; // Get the user's ID
+        const user_id = interaction.user.id;
+        const user_username = interaction.user.username;
+        const isCached = await cachedUsers.isUserCached(user_id, user_username);
+
         const rawInput = interaction.options.getString('filter');
         let filtersToRemove = sanitizeInput(rawInput).split(',').map(filter => sanitizeInput(filter)); // Convert to array and trim whitespace
 

@@ -54,6 +54,10 @@ module.exports = {
             .setRequired(false)
     ),
 	async execute(interaction, connection, cachedUsers) {
+    const user_id = interaction.user.id;
+    const user_username = interaction.user.username;
+    const isCached = await cachedUsers.isUserCached(user_id, user_username);
+    
 		let formattedDate;
 		let queryPromise;
 
