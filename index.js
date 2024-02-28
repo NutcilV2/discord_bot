@@ -6,7 +6,8 @@ const { token } = require('./config.json');
 const { config } = require('dotenv');
 const fs = require('node:fs');
 const path = require('node:path');
-const connection = require('./db');
+const connection = require('./utility/dbConnection');
+const cachedUsers = require('./utility/cachedUsers');
 
 config();
 
@@ -54,7 +55,7 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 
 	try {
-		await command.execute(interaction, connection);
+		await command.execute(interaction, connection, cachedUsers);
 	} catch (error) {
 		console.error(error);
 		if (interaction.replied || interaction.deferred) {
@@ -75,7 +76,7 @@ client.once(Events.ClientReady, readyClient => {
 		// Schedule a task to run at 14:00 every day
     schedule.scheduleJob('00 00 * * *', function() {
         console.log('Running scheduled Direct Message task...');
-        scheduled_dm.execute(client, connection, true);
+        scheduled_dm.execute(client, connection, cachedUsers, true);
     });
 });
 

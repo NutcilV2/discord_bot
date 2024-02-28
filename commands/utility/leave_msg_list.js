@@ -4,7 +4,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('leave_msg_list')
         .setDescription('Removes you from the private messaging list'),
-    async execute(interaction, connection) {
+    async execute(interaction, connection, cachedUsers) {
 			const user_id = interaction.user.id;
 			const user_username = interaction.user.username;
 

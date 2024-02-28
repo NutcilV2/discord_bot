@@ -10,7 +10,7 @@ module.exports = {
                 .setDescription('The Filter that you want for events')
                 .setRequired(true) // This makes the parameter optional
         ),
-    async execute(interaction, connection) {
+    async execute(interaction, connection, cachedUsers) {
 			const user_id = interaction.user.id;
 			const user_username = interaction.user.username;
 

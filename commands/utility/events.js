@@ -26,7 +26,7 @@ module.exports = {
                 .setDescription('The date to filter events')
                 .setRequired(false) // This makes the parameter optional
         ),
-    async execute(interaction, connection) {
+    async execute(interaction, connection, cachedUsers) {
         const applyFilter = interaction.options.getBoolean('apply_filter') ?? true;
 
 				let formattedDate;

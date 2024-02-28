@@ -53,7 +53,7 @@ module.exports = {
             .setDescription('The date to filter events')
             .setRequired(false)
     ),
-	async execute(interaction, connection) {
+	async execute(interaction, connection, cachedUsers) {
 		let formattedDate;
 		let queryPromise;
 

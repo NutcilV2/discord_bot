@@ -16,7 +16,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('scheduled_dm')
         .setDescription('Scheduled Event that will delete all events before the current date'),
-    async execute(client, connection, isScheduled = false) {
+    async execute(client, connection, cachedUsers, isScheduled = false) {
         if (!isScheduled) {
             return;
         }
