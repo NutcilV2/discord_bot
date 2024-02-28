@@ -18,7 +18,7 @@ module.exports = {
     async execute(interaction, connection, cachedUsers) {
 			const user_id = interaction.user.id;
 			const user_username = interaction.user.username;
-      cachedUsers.isUserCached(user_id, user_username);
+      const isCached = await cachedUsers.isUserCached(user_id);
 
 			const queryPromise = () => new Promise((resolve, reject) => {
 					const sql = `

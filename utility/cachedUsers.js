@@ -40,3 +40,9 @@ function isUserCached(user_id, user_username) {
 function cacheUser(user_id) {
     userCache.add(user_id);
 }
+
+
+module.exports = {
+    isUserCached,
+    cacheUser
+};
