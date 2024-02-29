@@ -131,6 +131,28 @@ function updateUserDirectMsg(user_id, user_username, user_directmsg) {
 
 
 
+
+
+function addEvent(event_date, event_time, event_name) {
+  return new Promise((resolve, reject) => {
+      const sql = `
+          INSERT INTO events (Event_Date, Event_Time, Event_Title, Event_Link, Event_Description, Event_Price, Event_Tags)
+          VALUES (?, ?, ?, '', '', '', '');
+      `;
+      connection.query(sql, [event_date, event_time, event_name], (error, results) => {
+          if (error) {
+              reject(error);
+          } else {
+              resolve(results);
+          }
+      });
+  });
+}
+
+
+
+
+
 module.exports = {
     parseFilter,
     parseDate,
