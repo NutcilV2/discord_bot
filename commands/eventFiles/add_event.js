@@ -7,15 +7,15 @@ module.exports = {
         .setName('add_event')
         .setDescription('Adds Event to database')
         .addStringOption(option =>
-            option.setName('Event_Date')
+            option.setName('event_date')
                 .setDescription('The date of the event')
                 .setRequired(true))
         .addStringOption(option =>
-            option.setName('Event_Time')
+            option.setName('event_time')
                 .setDescription('The time of the event')
                 .setRequired(true))
         .addStringOption(option =>
-            option.setName('Event_Name')
+            option.setName('event_name')
                 .setDescription('The name of the event')
                 .setRequired(true)), // Make sure the filter is required for command execution
     async execute(interaction, connection, cachedUsers) {
@@ -23,9 +23,9 @@ module.exports = {
         const user_username = interaction.user.username;
         const isCached = await cachedUsers.isUserCached(user_id, user_username);
 
-        const event_date = mysqlFunctions.parseDate(sanitizeInput(interaction.options.getString('Event_Date')));
-        const event_time = sanitizeInput(interaction.options.getString('Event_Time'));
-        const event_name = sanitizeInput(interaction.options.getString('Event_Name'));
+        const event_date = mysqlFunctions.parseDate(sanitizeInput(interaction.options.getString('event_date')));
+        const event_time = sanitizeInput(interaction.options.getString('event_time'));
+        const event_name = sanitizeInput(interaction.options.getString('event_name'));
 
         try {
             await mysqlFunctions.addEvent(event_date, event_time, event_name);
