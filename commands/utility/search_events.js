@@ -37,7 +37,7 @@ module.exports = {
     if(interaction.options.getString('count')) { count = interaction.options.getString('count'); }
 
 
-    let queryString = `SELECT Event_Id, Event_Title FROM events WHERE Event_Date = ?`;
+    let queryString = `SELECT Event_Id, Event_Title, Event_Date FROM events WHERE Event_Date = ?`;
     if(likeConditions) { queryString += ` AND (${likeConditions.join(' OR ')})`; }
     queryString += `LIMIT ${count}`
 
