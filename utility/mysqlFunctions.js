@@ -153,6 +153,27 @@ function addEvent(event_date, event_time, event_name) {
 
 
 
+function updateServerPrefix(server_id, server_prefix) {
+    return new Promise((resolve, reject) => {
+        const sql = `
+            INSERT INTO servers (Server_Id, Server_Prefix)
+            VALUES (?, ?)
+            ON DUPLICATE KEY UPDATE Server_Prefix = ?;
+        `;
+        connection.query(sql, [server_id, server_prefix, server_prefix], (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+}
+
+
+
+
+
 module.exports = {
     parseFilter,
     parseDate,
@@ -167,4 +188,6 @@ module.exports = {
     updateUserDirectMsg,
 
     addEvent,
+
+    updateServerPrefix,
 };

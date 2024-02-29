@@ -4,26 +4,27 @@ const mysqlFunctions = require('../../utility/mysqlFunctions');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('set_filter')
-        .setDescription('Sets your list of filters to filter(s)')
+        .setName('set_custom_prefix')
+        .setDescription('Sets your servers prefix for all events')
         .addStringOption(option =>
-            option.setName('filter')
-                .setDescription('The Filter that you want for events')
+            option.setName('prefix')
+                .setDescription('The Prefix that you want for events')
                 .setRequired(true) // This makes the parameter optional
         ),
     async execute(interaction, connection, cachedUsers) {
       const user_id = interaction.user.id;
 			const user_username = interaction.user.username;
+      const guildId = interaction.guildId;
       const isCached = await cachedUsers.isUserCached(user_id, user_username);
-      const filter = sanitizeInput(interaction.options.getString('filter'));
+      const prefix = sanitizeInput(interaction.options.getString('prefix'));
 
 			try {
-          const result = await mysqlFunctions.updateUserFilter(user_id, user_username, filter);
-					const replyMessage = `You've set your filter`;
+          const result = await mysqlFunctions.updateServerPrefix(guildId, prefix);
+					const replyMessage = `You've set your Servers Prefix`;
 					await interaction.reply(replyMessage);
 			} catch (error) {
 					console.error('An error occurred:', error);
-					await interaction.reply('An error occurred while updating your filter.');
+					await interaction.reply('An error occurred while updating your Servers Prefix.');
 			}
     },
 };

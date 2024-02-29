@@ -1,0 +1,5 @@
+USE discord_db;
+CREATE TABLE servers (
+	  Server_Id VARCHAR(25) PRIMARY KEY,
+    Server_Prefix VARCHAR(255) NOT NULL,
+);
