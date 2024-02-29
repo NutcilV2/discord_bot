@@ -56,4 +56,5 @@ module.exports = {
     parseFilter,
     fetchUserFilters,
     fetchUserBlacklists,
+    updateUserFilters,
 };
