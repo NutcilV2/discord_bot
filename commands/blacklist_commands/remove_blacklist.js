@@ -16,17 +16,18 @@ module.exports = {
         const isCached = await cachedUsers.isUserCached(user_id, user_username);
 
         const rawInput = interaction.options.getString('blacklist');
-        let filtersToRemove = sanitizeInput(rawInput).split(',').map(filter => sanitizeInput(filter)); // Convert to array and trim whitespace
+        let blacklistToRemove = sanitizeInput(rawInput).split(',').map(filter => sanitizeInput(filter)); // Convert to array and trim whitespace
 
         try {
             const blacklistString = await mysqlFunctions.fetchUserBlacklists(user_id);
-            let currentBlacklistsArray = blacklistString.split(',').filter(Boolean).map(filter => sanitizeInput(filter)); // Split into array and remove any empty strings
+            console.log(blacklistString);
+            let currentBlacklistsArray = blacklistString.split(',').filter(Boolean).map(blacklist => sanitizeInput(blacklist)); // Split into array and remove any empty strings
 
             // Remove each specified filter from the current filters array
             console.log(currentBlacklistsArray);
-            filtersToRemove.forEach(filter => {
-                console.log(filter)
-                const index = currentBlacklistsArray.indexOf(filter);
+            blacklistToRemove.forEach(blacklist => {
+                console.log(blacklist)
+                const index = currentBlacklistsArray.indexOf(blacklist);
                 if (index > -1) {
                     currentBlacklistsArray.splice(index, 1); // Remove the filter if found
                 }
