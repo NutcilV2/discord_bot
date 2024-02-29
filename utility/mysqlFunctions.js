@@ -116,7 +116,7 @@ function updateUserDirectMsg(user_id, user_username, user_directmsg) {
     return new Promise((resolve, reject) => {
         const sql = `
             INSERT INTO users (User_Id, User_Username, User_DirectMsg, User_Filter, User_Blacklist)
-            VALUES (?, ?, '?, '', '')
+            VALUES (?, ?, ?, '', '')
             ON DUPLICATE KEY UPDATE User_DirectMsg = ?;
         `;
         connection.query(sql, [user_id, user_username, user_directmsg, user_directmsg], (error, results) => {
