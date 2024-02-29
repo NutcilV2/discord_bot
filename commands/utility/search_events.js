@@ -35,8 +35,9 @@ module.exports = {
 
 
     let queryString = `SELECT Event_Id, Event_Title, Event_Date FROM events `;
+    let formattedDate;
     if (interaction.options.getString('date')) {
-  			const formattedDate = mysqlFunctions.parseDate(interaction.options.getString('date'));
+  			formattedDate = mysqlFunctions.parseDate(interaction.options.getString('date'));
         queryString += `WHERE Event_Date = ?`
 		}
     if(likeConditions) {
