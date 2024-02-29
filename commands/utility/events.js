@@ -63,7 +63,7 @@ module.exports = {
 
             const result = await mysqlFunctions.runQuery(queryString);
             console.log(result);
-            await interaction.reply(result);
+            await interaction.reply("Results: \n", result);
 
         } catch (error) {
             console.error('An error occurred while Sending Direct Messages:', error);
