@@ -63,7 +63,10 @@ module.exports = {
 
             const result = await mysqlFunctions.runQuery(queryString);
             console.log(result);
-            await interaction.reply("Results: \n", result);
+
+            // Format the result for display
+            const formattedResult = result.map(row => `${row.Event_Id}: ${row.Event_Title}`).join('\n');
+            await interaction.reply(`Results: \n${formattedResult}`);
 
         } catch (error) {
             console.error('An error occurred while Sending Direct Messages:', error);
