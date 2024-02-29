@@ -12,6 +12,21 @@ function parseFilter(input) {
     return result.filter(Boolean);
 }
 
+function parseDate(input) {
+  const date = input.replace(/-/g, '/');
+
+  const parts = date.split('/');
+  const formattedMonth = parts[0].padStart(2, '0');
+  const formattedDay = parts[1].padStart(2, '0');
+  let formattedYear = parts[2];
+
+  if (formattedYear.length === 2) {
+      formattedYear = parseInt(formattedYear, 10) < 50 ? '20' + formattedYear : '19' + formattedYear;
+  }
+
+  return [formattedMonth, formattedDay, formattedYear].join('/');
+}
+
 function runQuery(customQuery, formattedDate) {
     return new Promise((resolve, reject) => {
         connection.query(customQuery, [formattedDate], (error, results) => {
@@ -92,6 +107,7 @@ function updateUserBlacklist(user_id, user_username, blacklist) {
 
 module.exports = {
     parseFilter,
+    parseDate,
     runQuery,
 
     fetchUserFilters,
