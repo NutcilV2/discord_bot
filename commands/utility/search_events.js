@@ -38,10 +38,11 @@ module.exports = {
     let formattedDate;
     if (interaction.options.getString('date')) {
   			formattedDate = mysqlFunctions.parseDate(interaction.options.getString('date'));
-        queryString += `WHERE Event_Date = ?`
+        queryString += `WHERE Event_Date = ?`;
 		}
     if(likeConditions) {
-        if (interaction.options.getString('date')) { queryString += ` AND ` }
+        if (interaction.options.getString('date')) { queryString += ` AND `; }
+        else { queryString += `WHERE `; }
         queryString += `(${likeConditions.join(' OR ')})`;
     }
     queryString += ` LIMIT ${count}`
