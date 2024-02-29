@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
+const mysqlFunctions = require('../../utility/mysqlFunctions');
 
 module.exports = {
     data: new SlashCommandBuilder()
