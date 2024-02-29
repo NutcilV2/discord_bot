@@ -32,7 +32,7 @@ module.exports = {
             await interaction.reply(`The specified blacklist(s) have been added.`);
         } catch (error) {
             console.error('An error occurred:', error);
-            await interaction.reply(`The specified blacklist(s) have been added.`);
+            await interaction.reply(`An error occurred while adding the specified blacklist(s) to the list.`);
         }
     },
 };

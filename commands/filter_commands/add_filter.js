@@ -33,7 +33,7 @@ module.exports = {
             await interaction.reply(`The specified filter(s) have been added.`);
         } catch (error) {
             console.error('An error occurred:', error);
-            await interaction.reply(`The specified filter(s) have been added.`);
+            await interaction.reply(`An error occurred while adding the specified filter(s) to the list.`);
         }
     },
 };
