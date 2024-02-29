@@ -61,9 +61,8 @@ module.exports = {
                 }
             }
 
-            const result = await mysqlFunctions.runQuery(queryString);
+            const result = await mysqlFunctions.runQuery(queryString, formattedDate);
             console.log(result);
-            console.log(queryString);
 
             // Format the result for display
             const formattedResult = result.map(row => `${row.Event_Id}: ${row.Event_Title}`).join('\n');
