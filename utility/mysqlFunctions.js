@@ -26,19 +26,6 @@ function fetchUserFilters(user_id) {
     });
 }
 
-function fetchUserBlacklists(user_id) {
-    return new Promise((resolve, reject) => {
-        const sql = `SELECT User_Blacklist FROM users WHERE User_Id = ?;`;
-        connection.query(sql, [user_id], (error, results) => {
-            if (error) {
-                reject(error);
-            } else {
-                resolve(results.length > 0 ? results[0].User_Filter : '');
-            }
-        });
-    });
-}
-
 function updateUserFilters(user_id, updatedFilters) {
     return new Promise((resolve, reject) => {
         const sql = `UPDATE users SET User_Filter = ? WHERE User_Id = ?;`;
@@ -52,9 +39,42 @@ function updateUserFilters(user_id, updatedFilters) {
     });
 }
 
+
+
+
+function fetchUserBlacklists(user_id) {
+    return new Promise((resolve, reject) => {
+        const sql = `SELECT User_Blacklist FROM users WHERE User_Id = ?;`;
+        connection.query(sql, [user_id], (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results.length > 0 ? results[0].User_Filter : '');
+            }
+        });
+    });
+}
+
+function updateUserBlacklists(user_id, updatedBlacklists) {
+    return new Promise((resolve, reject) => {
+        const sql = `UPDATE users SET User_Blacklist = ? WHERE User_Id = ?;`;
+        connection.query(sql, [updatedBlacklists, user_id], (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+}
+
+
+
 module.exports = {
     parseFilter,
+    
     fetchUserFilters,
-    fetchUserBlacklists,
     updateUserFilters,
+
+    fetchUserBlacklists,
 };
