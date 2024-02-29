@@ -39,6 +39,19 @@ function fetchUserBlacklists(user_id) {
     });
 }
 
+function updateUserFilters(user_id, updatedFilters) {
+    return new Promise((resolve, reject) => {
+        const sql = `UPDATE users SET User_Filter = ? WHERE User_Id = ?;`;
+        connection.query(sql, [updatedFilters, user_id], (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+}
+
 module.exports = {
     parseFilter,
     fetchUserFilters,
