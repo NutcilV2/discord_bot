@@ -141,4 +141,6 @@ module.exports = {
 
     fetchUserBlacklists,
     updateUserBlacklist,
+
+    updateUserDirectMsg,
 };
