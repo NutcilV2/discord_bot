@@ -12,7 +12,7 @@ module.exports = {
         const isCached = await cachedUsers.isUserCached(user_id, user_username);
 
   			try {
-            const blacklistString = await mysqlFunctions.fetchUserFilters(user_id);
+            const blacklistString = await mysqlFunctions.fetchUserBlacklists(user_id);
             let messageContent;
 
             if (blacklistString) {
