@@ -165,4 +165,6 @@ module.exports = {
     updateUserBlacklist,
 
     updateUserDirectMsg,
+
+    addEvent,
 };
