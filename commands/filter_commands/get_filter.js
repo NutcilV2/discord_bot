@@ -12,7 +12,6 @@ module.exports = {
         const isCached = await cachedUsers.isUserCached(user_id, user_username);
 
         try {
-            // Use fetchUserFilters to get the user's filters
             const filterString = await mysqlFunctions.fetchUserFilters(user_id);
             let messageContent;
 

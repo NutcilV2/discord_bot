@@ -32,7 +32,7 @@ module.exports = {
                 }
             });
 
-            await mysqlFunctions.updateUserFilters(user_id, currentFiltersArray.join(','));
+            await mysqlFunctions.updateUserFilter(user_id, user_username, currentFiltersArray.join(','));
             await interaction.reply(`The specified filter(s) have been removed.`);
         } catch (error) {
             console.error('An error occurred:', error);

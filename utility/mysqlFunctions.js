@@ -26,10 +26,14 @@ function fetchUserFilters(user_id) {
     });
 }
 
-function updateUserFilters(user_id, updatedFilters) {
+function updateUserFilter(user_id, user_username, filter) {
     return new Promise((resolve, reject) => {
-        const sql = `UPDATE users SET User_Filter = ? WHERE User_Id = ?;`;
-        connection.query(sql, [updatedFilters, user_id], (error, results) => {
+        const sql = `
+            INSERT INTO users (User_Id, User_Username, User_DirectMsg, User_Filter, User_Blacklist)
+            VALUES (?, ?, 'F', ?, '')
+            ON DUPLICATE KEY UPDATE User_Filter = ?;
+        `;
+        connection.query(sql, [user_id, user_username, filter, filter], (error, results) => {
             if (error) {
                 reject(error);
             } else {
@@ -55,10 +59,14 @@ function fetchUserBlacklists(user_id) {
     });
 }
 
-function updateUserBlacklists(user_id, updatedBlacklists) {
+function updateUserBlacklist(user_id, user_username, blacklist) {
     return new Promise((resolve, reject) => {
-        const sql = `UPDATE users SET User_Blacklist = ? WHERE User_Id = ?;`;
-        connection.query(sql, [updatedBlacklists, user_id], (error, results) => {
+        const sql = `
+            INSERT INTO users (User_Id, User_Username, User_DirectMsg, User_Filter, User_Blacklist)
+            VALUES (?, ?, 'F', '', ?)
+            ON DUPLICATE KEY UPDATE User_Blacklist = ?;
+        `;
+        connection.query(sql, [user_id, user_username, blacklist, blacklist], (error, results) => {
             if (error) {
                 reject(error);
             } else {
@@ -72,9 +80,10 @@ function updateUserBlacklists(user_id, updatedBlacklists) {
 
 module.exports = {
     parseFilter,
-    
+
     fetchUserFilters,
-    updateUserFilters,
+    updateUserFilter,
 
     fetchUserBlacklists,
+    updateUserBlacklist,
 };

@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { sanitizeInput } = require('../../utility/inputSanitizer.js');
+const mysqlFunctions = require('../../utility/mysqlFunctions');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -14,25 +15,10 @@ module.exports = {
       const user_id = interaction.user.id;
 			const user_username = interaction.user.username;
       const isCached = await cachedUsers.isUserCached(user_id, user_username);
-
       const filter = sanitizeInput(interaction.options.getString('blacklist'));
-			const queryPromise = () => new Promise((resolve, reject) => {
-					const sql = `
-							INSERT INTO users (User_Id, User_Username, User_DirectMsg, User_Filter, User_Blacklist)
-							VALUES (?, ?, 'F', '', '')
-							ON DUPLICATE KEY UPDATE User_Blacklist = ?;
-					`;
-					connection.query(sql, [user_id, user_username, filter], (error, results, fields) => {
-							if (error) {
-									reject(error);
-							} else {
-									resolve(results);
-							}
-					});
-			});
 
 			try {
-					const results = await queryPromise();
+          const result = await mysqlFunctions.updateUserBlacklist(user_id, user_username, filter);
 					const replyMessage = `You've set your blacklist`;
 					await interaction.reply(replyMessage);
 			} catch (error) {
