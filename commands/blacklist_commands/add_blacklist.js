@@ -19,7 +19,6 @@ module.exports = {
 
         try {
             const blacklistString = await mysqlFunctions.fetchUserBlacklists(user_id);
-            console.log(blacklistString);
             let currentBlacklistArray = blacklistString.split(',').filter(Boolean).map(filter => sanitizeInput(filter)); // Split into array and remove any empty strings
 
             // Remove each specified filter from the current filters array

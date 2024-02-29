@@ -14,7 +14,6 @@ module.exports = {
         const user_id = interaction.user.id;
         const user_username = interaction.user.username;
         const isCached = await cachedUsers.isUserCached(user_id, user_username);
-
         const rawInput = interaction.options.getString('filter');
         let filtersToAdd = sanitizeInput(rawInput).split(',').map(filter => sanitizeInput(filter)); // Convert to array and trim whitespace
 

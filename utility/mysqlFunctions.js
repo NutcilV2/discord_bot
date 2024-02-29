@@ -65,7 +65,7 @@ function fetchUserBlacklists(user_id) {
             if (error) {
                 reject(error);
             } else {
-                resolve(results.length > 0 ? results[0].User_Filter : '');
+                resolve(results.length > 0 ? results[0].User_Blacklist : '');
             }
         });
     });
