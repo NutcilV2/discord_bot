@@ -39,12 +39,22 @@ module.exports = {
     if (interaction.options.getString('date')) {
   			formattedDate = mysqlFunctions.parseDate(interaction.options.getString('date'));
         queryString += `WHERE Event_Date = ?`;
-		}
-    if(likeConditions) {
-        if (interaction.options.getString('date')) { queryString += ` AND `; }
-        else { queryString += `WHERE `; }
-        queryString += `(${likeConditions.join(' OR ')})`;
+		} else {
+        const tempDate = interaction.options.getString('date');
+  			const date = tempDate.replace(/-/g, '/');
+
+  			const parts = date.split('/');
+  			const formattedMonth = parts[0].padStart(2, '0');
+  			const formattedDay = parts[1].padStart(2, '0');
+  			let formattedYear = parts[2];
+
+  			if (formattedYear.length === 2) {
+  			    formattedYear = parseInt(formattedYear, 10) < 50 ? '20' + formattedYear : '19' + formattedYear;
+        }
+
+        queryString += `WHERE Event_Date >= ?`;
     }
+    if(likeConditions) { queryString += ` AND (${likeConditions.join(' OR ')})`; }
     queryString += ` LIMIT ${count}`
 
     try {
