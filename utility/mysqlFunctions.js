@@ -39,6 +39,10 @@ function runQuery(customQuery, formattedDate) {
     });
 }
 
+
+
+
+
 // Inside mysqlFunctions module
 function fetchUserFilters(user_id) {
     return new Promise((resolve, reject) => {
@@ -73,6 +77,7 @@ function updateUserFilter(user_id, user_username, filter) {
 
 
 
+
 function fetchUserBlacklists(user_id) {
     return new Promise((resolve, reject) => {
         const sql = `SELECT User_Blacklist FROM users WHERE User_Id = ?;`;
@@ -94,6 +99,27 @@ function updateUserBlacklist(user_id, user_username, blacklist) {
             ON DUPLICATE KEY UPDATE User_Blacklist = ?;
         `;
         connection.query(sql, [user_id, user_username, blacklist, blacklist], (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+}
+
+
+
+
+
+function updateUserDirectMsg(user_id, user_username, user_directmsg) {
+    return new Promise((resolve, reject) => {
+        const sql = `
+            INSERT INTO users (User_Id, User_Username, User_DirectMsg, User_Filter, User_Blacklist)
+            VALUES (?, ?, '?, '', '')
+            ON DUPLICATE KEY UPDATE User_DirectMsg = ?;
+        `;
+        connection.query(sql, [user_id, user_username, user_directmsg, user_directmsg], (error, results) => {
             if (error) {
                 reject(error);
             } else {
