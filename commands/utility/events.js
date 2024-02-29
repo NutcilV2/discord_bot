@@ -57,7 +57,7 @@ module.exports = {
                 if(blacklistString) {
                     const parsed = mysqlFunctions.parseFilter(blacklistString);
                     const likeConditions = parsed.map(term  => `Event_Title NOT LIKE '%${term}%'`);
-                    queryString += ` AND (${likeConditions.join(' OR ')})`;
+                    queryString += ` AND (${likeConditions.join(' AND ')})`;
                 }
             }
 
