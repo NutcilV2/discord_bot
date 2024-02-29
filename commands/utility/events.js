@@ -1,16 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-
-function parseFilter(input) {
-    const regex = /(?!\s*$)\s*(?:(?:"([^"]*)")|([^,]+))\s*(?:,|$)/g;
-    let result = [];
-    let match;
-    while ((match = regex.exec(input)) !== null) {
-        // Add matched group 1 or group 2 to the result
-        result.push(match[1] || match[2]);
-    }
-    return result.filter(Boolean); // Filter out any empty strings just in case
-}
-
+const mysqlFunctions = require('../../utility/mysqlFunctions');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -54,68 +43,30 @@ module.exports = {
 				}
 
         try {
-            const users = await fetchUsersWithDirectMsgEnabled(connection, interaction.user.id);
-            for (const user of users) {
-								let events;
-								if(applyFilter) {
-										events = await fetchRelevantEventsForUser(connection, user, formattedDate);
-								} else {
-										events = await fetchRelevantEventsForUserWithoutFilter(connection, formattedDate);
-								}
+            let queryString = `SELECT Event_Id, Event_Title FROM events WHERE Event_Date = ?`;
 
-                const eventString = events.map(e => `${e.Event_Id}: ${e.Event_Title}`).join('\n');
-                const messageContent = eventString ? `Your events:\n${eventString}` : 'No upcoming events for you.';
-                // Placeholder for sending DM; implement based on your bot's functionality
-								await interaction.reply(messageContent);
-                console.log(`Sending to ${user.User_Username}: ${messageContent}`);
+            if(applyFilter) {
+                const filterString = await mysqlFunctions.fetchUserFilters(user_id);
+                if(filterString) {
+                    const parsed = mysqlFunctions.parseFilter(filterString);
+                    const likeConditions = parsed.map(term  => `Event_Title LIKE '%${term}%'`);
+                    queryString += ` AND (${likeConditions.join(' OR ')})`;
+                }
+
+                const blacklistString = await mysqlFunctions.fetchUserBlacklists(user_id);
+                if(blacklistString) {
+                    const parsed = mysqlFunctions.parseFilter(blacklistString);
+                    const likeConditions = parsed.map(term  => `Event_Title NOT LIKE '%${term}%'`);
+                    queryString += ` AND (${likeConditions.join(' OR ')})`;
+                }
             }
-						console.error('Sent all the Direct messages');
+
+            const result = await mysqlFunctions.runQuery(queryString);
+            console.log(result);
+            await interaction.reply(result);
+
         } catch (error) {
             console.error('An error occurred while Sending Direct Messages:', error);
-            // Since this command is not user-invoked, consider logging this error instead of replying to an interaction
         }
     }
 };
-
-async function fetchUsersWithDirectMsgEnabled(connection, user_id) {
-    return new Promise((resolve, reject) => {
-        connection.query(`SELECT User_Id, User_Username, User_Filter FROM users WHERE User_Id = '${user_id}'`, (error, results) => {
-            if (error) reject(error);
-            else resolve(results);
-        });
-    });
-}
-
-async function fetchRelevantEventsForUser(connection, user, filterDate) {
-    // Assuming `User_Filter` affects the event selection; adjust query as needed
-		const input = user.User_Filter;
-		const parsed = parseFilter(input);
-		const likeConditions = parsed.map(term  => `Event_Title LIKE '%${term}%'`);
-		let queryString;
-		if(!likeConditions) {
-				queryString = `SELECT Event_Id, Event_Title FROM events WHERE Event_Date = '${filterDate}'`;
-		} else {
-				queryString = `SELECT Event_Id, Event_Title FROM events WHERE Event_Date = '${filterDate}' AND (${likeConditions.join(' OR ')})`;
-		}
-		console.log(queryString);
-
-    return new Promise((resolve, reject) => {
-        connection.query(queryString, (error, results) => {
-            if (error) reject(error);
-            else resolve(results); // Filter these results based on `user.User_Filter` if necessary
-        });
-    });
-}
-
-async function fetchRelevantEventsForUserWithoutFilter(connection, filterDate) {
-    // Assuming `User_Filter` affects the event selection; adjust query as needed
-		let queryString = `SELECT Event_Id, Event_Title FROM events WHERE Event_Date = '${filterDate}'`;
-		console.log(queryString);
-
-    return new Promise((resolve, reject) => {
-        connection.query(queryString, (error, results) => {
-            if (error) reject(error);
-            else resolve(results); // Filter these results based on `user.User_Filter` if necessary
-        });
-    });
-}

@@ -12,6 +12,18 @@ function parseFilter(input) {
     return result.filter(Boolean);
 }
 
+function runQuery(customQuery, formattedDate) {
+    return new Promise((resolve, reject) => {
+        connection.query(customQuery, [formattedDate], (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+}
+
 // Inside mysqlFunctions module
 function fetchUserFilters(user_id) {
     return new Promise((resolve, reject) => {
