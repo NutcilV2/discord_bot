@@ -23,7 +23,7 @@ module.exports = {
         const user_username = interaction.user.username;
         const isCached = await cachedUsers.isUserCached(user_id, user_username);
 
-        const event_date = mysqlFunctions.parseDate(sanitizeInput(interaction.options.getString('Event_Date')));
+        const event_date = mysqlFunctions.parseDate(interaction.options.getString('Event_Date'));
         const event_time = sanitizeInput(interaction.options.getString('Event_Time'));
         const event_name = sanitizeInput(interaction.options.getString('Event_Name'));
 
