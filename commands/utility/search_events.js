@@ -40,18 +40,8 @@ module.exports = {
   			formattedDate = mysqlFunctions.parseDate(interaction.options.getString('date'));
         queryString += `WHERE Event_Date = ?`;
 		} else {
-        const tempDate = interaction.options.getString('date');
-  			const date = tempDate.replace(/-/g, '/');
-
-  			const parts = date.split('/');
-  			const formattedMonth = parts[0].padStart(2, '0');
-  			const formattedDay = parts[1].padStart(2, '0');
-  			let formattedYear = parts[2];
-
-  			if (formattedYear.length === 2) {
-  			    formattedYear = parseInt(formattedYear, 10) < 50 ? '20' + formattedYear : '19' + formattedYear;
-        }
-
+        const today = new Date();
+        formattedDate = (today.getMonth() + 1).toString().padStart(2, '0') + '/' + today.getDate().toString().padStart(2, '0') + '/' + today.getFullYear();;
         queryString += `WHERE Event_Date >= ?`;
     }
     if(likeConditions) { queryString += ` AND (${likeConditions.join(' OR ')})`; }
