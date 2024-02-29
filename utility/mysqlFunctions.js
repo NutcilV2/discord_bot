@@ -92,6 +92,7 @@ function updateUserBlacklist(user_id, user_username, blacklist) {
 
 module.exports = {
     parseFilter,
+    runQuery,
 
     fetchUserFilters,
     updateUserFilter,
