@@ -25,7 +25,7 @@ module.exports = {
 
         const event_date = mysqlFunctions.parseDate(sanitizeInput(interaction.options.getString('event_date')));
         const event_time = sanitizeInput(interaction.options.getString('event_time'));
-        const event_name = sanitizeInput(interaction.options.getString('event_name'));
+        const event_name = sanitizeInput(interaction.options.getString('event_name')).replace(/\[|\]/g, '');
 
         try {
             await mysqlFunctions.addEvent(event_date, event_time, event_name);
