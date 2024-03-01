@@ -29,7 +29,7 @@ module.exports = {
             interaction.reply(`Your Server does not have a Prefix`);
             return;
         } else {
-            server_prefix = `[${server_prefix}] - %`;
+            server_prefix = `[${server_prefix}]  -  %`;
         }
 
 
