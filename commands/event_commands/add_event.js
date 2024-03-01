@@ -25,7 +25,15 @@ module.exports = {
 
         const event_date = mysqlFunctions.parseDate(sanitizeInput(interaction.options.getString('event_date')));
         const event_time = sanitizeInput(interaction.options.getString('event_time'));
-        const event_name = sanitizeInput(interaction.options.getString('event_name')).replace(/\[|\]/g, '');
+        let event_name = sanitizeInput(interaction.options.getString('event_name')).replace(/\[|\]/g, '');
+
+        try {
+          const guildId = interaction.guildId;
+          const prefix = await mysqlFunctions.getServerPrefix(guildId);
+          event_name = `[${prefix}]` + event_name;
+        } catch (error) {
+          console.log('most likly the event was not created in a server');
+        }
 
         try {
             await mysqlFunctions.addEvent(event_date, event_time, event_name);
