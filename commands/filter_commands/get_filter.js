@@ -1,6 +1,5 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const mysqlFunctions = require('../../utility/mysqlFunctions');
-
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -13,21 +12,28 @@ module.exports = {
 
         try {
             const filterString = await mysqlFunctions.fetchUserFilters(user_id);
-            let messageContent;
+            let embedMessage = new EmbedBuilder();
 
             if (filterString) {
                 const parsed = mysqlFunctions.parseFilter(filterString);
                 const formattedFilterString = parsed.map(item => `${item}`).join('\n') + '\n';
-                messageContent = `Your Filters:\n${formattedFilterString}`;
+                embedMessage.setTitle('Your Filters')
+                    .setDescription(formattedFilterString)
+                    .setColor('#0099ff'); // You can change the color to whatever you like
             } else {
-                messageContent = 'You don\'t have any Filters';
+                embedMessage.setDescription('You don\'t have any Filters')
+                    .setColor('#ff0000'); // Change color if needed
             }
 
-            console.log(messageContent);
-            await interaction.reply(messageContent);
+            console.log(embedMessage);
+            await interaction.reply({ embeds: [embedMessage] });
         } catch (error) {
             console.error('An error occurred:', error);
-            await interaction.reply('An error occurred while fetching your filter.');
+            const errorEmbed = new EmbedBuilder()
+                .setTitle('Error')
+                .setDescription('An error occurred while fetching your filters.')
+                .setColor('#ff0000'); // Error color
+            await interaction.reply({ embeds: [errorEmbed] });
         }
     },
 };
