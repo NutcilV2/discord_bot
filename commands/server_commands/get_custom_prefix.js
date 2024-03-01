@@ -13,7 +13,7 @@ module.exports = {
       const isCached = await cachedUsers.isUserCached(user_id, user_username);
 
 			try {
-          const result = await mysqlFunctions.getServerPrefix(guildId, prefix);
+          const result = await mysqlFunctions.getServerPrefix(guildId);
 					const replyMessage = `Servers Prefix: ${result}`;
 					await interaction.reply(replyMessage);
 			} catch (error) {
