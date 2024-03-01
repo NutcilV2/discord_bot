@@ -16,7 +16,12 @@ module.exports = {
   			const user_username = interaction.user.username;
         const isCached = await cachedUsers.isUserCached(user_id, user_username);
 
-        let server_prefix = sanitizeInput(interaction.options.getString('server_prefix')).replace(/\[|\]/g, '');
+
+        let server_prefix;
+        if(interaction.options.getString('server_prefix')) {
+            let server_prefix = sanitizeInput(interaction.options.getString('server_prefix')).replace(/\[|\]/g, '');
+        }
+
         if(!server_prefix && !interaction.guild) {
             interaction.reply(`You must specify a Servers Prefix`);
             return;
