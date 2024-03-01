@@ -21,8 +21,7 @@ module.exports = {
         .addBooleanOption(option =>
             option.setName('apply_server_prefix')
                 .setDescription('Select if you want your servers prefix applied or not. Default = True')
-                .setRequired(false),
-        )
+                .setRequired(false)),
     async execute(interaction, connection, cachedUsers) {
         const user_id = interaction.user.id;
         const user_username = interaction.user.username;
