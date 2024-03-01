@@ -18,6 +18,11 @@ module.exports = {
             option.setName('event_name')
                 .setDescription('The name of the event')
                 .setRequired(true)), // Make sure the filter is required for command execution
+        .addBooleanOption(option =>
+            option.setName('apply_server_prefix')
+                .setDescription('Select if you want your servers prefix applied or not. Default = True')
+                .setRequired(false) // This makes the parameter optional
+        )
     async execute(interaction, connection, cachedUsers) {
         const user_id = interaction.user.id;
         const user_username = interaction.user.username;
@@ -27,7 +32,9 @@ module.exports = {
         const event_time = sanitizeInput(interaction.options.getString('event_time'));
         let event_name = sanitizeInput(interaction.options.getString('event_name')).replace(/\[|\]/g, '');
 
-        if(interaction.guild) {
+        const applyServersPrefix = interaction.options.getBoolean('apply_server_prefix') ?? true;
+
+        if(interaction.guild && applyServersPrefix) {
             try {
               const guildId = interaction.guildId;
               const prefix = await mysqlFunctions.getServerPrefix(guildId);
