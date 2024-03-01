@@ -31,7 +31,7 @@ module.exports = {
             try {
               const guildId = interaction.guildId;
               const prefix = await mysqlFunctions.getServerPrefix(guildId);
-              event_name = `[${prefix[0].Server_Prefix}]  - ` + event_name;
+              event_name = `[${prefix[0].Server_Prefix}]  -  ` + event_name;
             } catch (error) {
               console.log('Error adding the server prefix to the event name');
             }
