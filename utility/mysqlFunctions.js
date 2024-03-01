@@ -170,6 +170,19 @@ function updateServerPrefix(server_id, server_prefix) {
     });
 }
 
+function getServerPrefix(server_id, server_prefix) {
+    return new Promise((resolve, reject) => {
+        const sql = `SELECT Server_Prefix FROM servers WHERE Server_Id = ?;`;
+        connection.query(sql, [server_id, server_prefix, server_prefix], (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+}
+
 
 
 
@@ -190,4 +203,5 @@ module.exports = {
     addEvent,
 
     updateServerPrefix,
+    getServerPrefix,
 };
