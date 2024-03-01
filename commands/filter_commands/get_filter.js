@@ -1,6 +1,6 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, AttachmentBuilder } = require('discord.js');
 const mysqlFunctions = require('../../utility/mysqlFunctions');
-
+const nodeHtmlToImage = require('node-html-to-image');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -17,14 +17,49 @@ module.exports = {
 
             if (filterString) {
                 const parsed = mysqlFunctions.parseFilter(filterString);
-                const formattedFilterString = parsed.map(item => `${item}`).join('\n') + '\n';
-                messageContent = `Your Filters:\n${formattedFilterString}`;
+                const formattedFilterString = parsed.map(item => `<li>${item}</li>`).join('') + '\n';
+                const htmlTemplate = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      body {
+        font-family: 'Poppins', Arial, sans-serif;
+        background: #2C2F33;
+        color: white;
+        padding: 20px;
+      }
+      ul {
+        list-style-type: none;
+      }
+      li {
+        margin: 10px 0;
+        border-bottom: 1px solid #fff;
+        padding: 5px;
+      }
+    </style>
+</head>
+<body>
+    <h2>Your Filters:</h2>
+    <ul>${formattedFilterString}</ul>
+</body>
+</html>
+`;
+                const image = await nodeHtmlToImage({
+                    html: htmlTemplate,
+                    quality: 100,
+                    type: 'png',
+                    encoding: 'buffer',
+                });
+
+                const attachment = new AttachmentBuilder(image, { name: 'filters.png' });
+                await interaction.reply({ files: [attachment] });
             } else {
                 messageContent = 'You don\'t have any Filters';
+                await interaction.reply(messageContent);
             }
-
-            console.log(messageContent);
-            await interaction.reply(messageContent);
         } catch (error) {
             console.error('An error occurred:', error);
             await interaction.reply('An error occurred while fetching your filter.');
