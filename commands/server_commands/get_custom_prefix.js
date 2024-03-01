@@ -4,7 +4,7 @@ const mysqlFunctions = require('../../utility/mysqlFunctions');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('set_custom_prefix')
+        .setName('get_custom_prefix')
         .setDescription('Sets your servers prefix for all events'),
     async execute(interaction, connection, cachedUsers) {
       const user_id = interaction.user.id;
