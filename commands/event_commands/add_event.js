@@ -19,9 +19,6 @@ module.exports = {
                 .setDescription('The name of the event')
                 .setRequired(true)), // Make sure the filter is required for command execution
     async execute(interaction, connection, cachedUsers) {
-        if(interaction.guild) {
-          console.log('this message was sent in a guild');
-        }
         const user_id = interaction.user.id;
         const user_username = interaction.user.username;
         const isCached = await cachedUsers.isUserCached(user_id, user_username);
@@ -30,12 +27,14 @@ module.exports = {
         const event_time = sanitizeInput(interaction.options.getString('event_time'));
         let event_name = sanitizeInput(interaction.options.getString('event_name')).replace(/\[|\]/g, '');
 
-        try {
-          const guildId = interaction.guildId;
-          const prefix = await mysqlFunctions.getServerPrefix(guildId);
-          event_name = `[${prefix[0].Server_Prefix}]` + event_name;
-        } catch (error) {
-          console.log('most likly the event was not created in a server');
+        if(interaction.guild) {
+            try {
+              const guildId = interaction.guildId;
+              const prefix = await mysqlFunctions.getServerPrefix(guildId);
+              event_name = `[${prefix[0].Server_Prefix}]  - ` + event_name;
+            } catch (error) {
+              console.log('Error adding the server prefix to the event name');
+            }
         }
 
         try {
