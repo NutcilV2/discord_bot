@@ -17,11 +17,11 @@ module.exports = {
         .addStringOption(option =>
             option.setName('event_name')
                 .setDescription('The name of the event')
-                .setRequired(true)), // Make sure the filter is required for command execution
+                .setRequired(true))
         .addBooleanOption(option =>
             option.setName('apply_server_prefix')
                 .setDescription('Select if you want your servers prefix applied or not. Default = True')
-                .setRequired(false) // This makes the parameter optional
+                .setRequired(false),
         )
     async execute(interaction, connection, cachedUsers) {
         const user_id = interaction.user.id;
