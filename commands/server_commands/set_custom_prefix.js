@@ -18,6 +18,10 @@ module.exports = {
       const isCached = await cachedUsers.isUserCached(user_id, user_username);
       const prefix = sanitizeInput(interaction.options.getString('prefix'));
 
+      if(interaction.guild) {
+        console.log('this message was sent in a guild');
+      }
+
 			try {
           const result = await mysqlFunctions.updateServerPrefix(guildId, prefix);
 					const replyMessage = `You've set your Servers Prefix`;
