@@ -52,6 +52,9 @@ module.exports = {
                     quality: 100,
                     type: 'png',
                     encoding: 'buffer',
+                    puppeteerArgs: {
+                        args: ['--no-sandbox', '--disable-setuid-sandbox'], 
+                    },
                 });
 
                 const attachment = new AttachmentBuilder(image, { name: 'filters.png' });
