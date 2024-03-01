@@ -19,6 +19,9 @@ module.exports = {
                 .setDescription('The name of the event')
                 .setRequired(true)), // Make sure the filter is required for command execution
     async execute(interaction, connection, cachedUsers) {
+        if(interaction.guild) {
+          console.log('this message was sent in a guild');
+        }
         const user_id = interaction.user.id;
         const user_username = interaction.user.username;
         const isCached = await cachedUsers.isUserCached(user_id, user_username);

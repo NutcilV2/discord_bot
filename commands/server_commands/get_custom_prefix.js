@@ -7,10 +7,6 @@ module.exports = {
         .setName('get_custom_prefix')
         .setDescription('Sets your servers prefix for all events'),
     async execute(interaction, connection, cachedUsers) {
-      if(interaction.guild) {
-        console.log('this message was sent in a guild');
-      }
-      
       const user_id = interaction.user.id;
 			const user_username = interaction.user.username;
       const guildId = interaction.guildId;
