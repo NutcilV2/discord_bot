@@ -30,7 +30,7 @@ module.exports = {
         try {
           const guildId = interaction.guildId;
           const prefix = await mysqlFunctions.getServerPrefix(guildId);
-          event_name = `[${prefix}]` + event_name;
+          event_name = `[${prefix[0].Server_Prefix}]` + event_name;
         } catch (error) {
           console.log('most likly the event was not created in a server');
         }
