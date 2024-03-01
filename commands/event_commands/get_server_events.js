@@ -5,14 +5,9 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('get_server_events')
         .setDescription('Scheduled Event that will delete all events before the current date')
-				.addBooleanOption(option =>
-            option.setName('apply_filter')
-                .setDescription('Select if you want your filter applied or not. Default = True')
-                .setRequired(false) // This makes the parameter optional
-        )
-        .addStringOption(option =>
-            option.setName('date')
-                .setDescription('The date to filter events')
+				.addStringOption(option =>
+            option.setName('server_prefix')
+                .setDescription('The server you are looking for')
                 .setRequired(false) // This makes the parameter optional
         ),
     async execute(interaction, connection, cachedUsers) {
@@ -20,48 +15,27 @@ module.exports = {
   			const user_username = interaction.user.username;
         const isCached = await cachedUsers.isUserCached(user_id, user_username);
 
-        const applyFilter = interaction.options.getBoolean('apply_filter') ?? true;
+        let server_prefix = sanitizeInput(interaction.options.getString('server_prefix')).replace(/\[|\]/g, '');
+        if(!server_prefix && !interaction.guild) {
+            interaction.reply(`You must specify a Servers Prefix`);
+            return;
+        } else {
+            const guildId = interaction.guildId;
+            const result = await mysqlFunctions.getServerPrefix(guildId);
+  					server_prefix = `${result[0].Server_Prefix}`;
+        }
 
-				let formattedDate;
-		    if (!interaction.options.getString('date')) {
-						const today = new Date();
-						formattedDate = (today.getMonth() + 1).toString().padStart(2, '0') + '/' + today.getDate().toString().padStart(2, '0') + '/' + today.getFullYear();
-		    } else {
-						const tempDate = interaction.options.getString('date');
-						const date = tempDate.replace(/-/g, '/');
+        if(!server_prefix) {
+            interaction.reply(`Your Server does not have a Prefix`);
+            return;
+        } else {
+            server_prefix = `[${server_prefix}] - %`;
+        }
 
-						const parts = date.split('/');
-						const formattedMonth = parts[0].padStart(2, '0');
-						const formattedDay = parts[1].padStart(2, '0');
-						let formattedYear = parts[2];
-
-						if (formattedYear.length === 2) {
-						    formattedYear = parseInt(formattedYear, 10) < 50 ? '20' + formattedYear : '19' + formattedYear;
-						}
-
-						formattedDate = [formattedMonth, formattedDay, formattedYear].join('/');
-				}
 
         try {
-            let queryString = `SELECT Event_Id, Event_Title FROM events WHERE Event_Date = ?`;
-
-            if(applyFilter) {
-                const filterString = await mysqlFunctions.fetchUserFilters(user_id);
-                if(filterString) {
-                    const parsed = mysqlFunctions.parseFilter(filterString);
-                    const likeConditions = parsed.map(term  => `Event_Title LIKE '%${term}%'`);
-                    queryString += ` AND (${likeConditions.join(' OR ')})`;
-                }
-
-                const blacklistString = await mysqlFunctions.fetchUserBlacklists(user_id);
-                if(blacklistString) {
-                    const parsed = mysqlFunctions.parseFilter(blacklistString);
-                    const likeConditions = parsed.map(term  => `Event_Title NOT LIKE '%${term}%'`);
-                    queryString += ` AND (${likeConditions.join(' AND ')})`;
-                }
-            }
-
-            const result = await mysqlFunctions.runQuery(queryString, formattedDate);
+            let queryString = `SELECT Event_Id, Event_Title FROM events WHERE Event_Title LIKE ?`;
+            const result = await mysqlFunctions.runQuery(queryString, server_prefix);
             console.log(result);
 
             // Format the result for display
