@@ -16,7 +16,7 @@ module.exports = {
 			const user_username = interaction.user.username;
       const guildId = interaction.guildId;
       const isCached = await cachedUsers.isUserCached(user_id, user_username);
-      const prefix = sanitizeInput(interaction.options.getString('prefix'));
+      const prefix = sanitizeInput(interaction.options.getString('prefix')).replace(/\[|\]/g, '');
 
 			try {
           const result = await mysqlFunctions.updateServerPrefix(guildId, prefix);
