@@ -4,7 +4,7 @@ const mysqlFunctions = require('../../utility/mysqlFunctions');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('get_server_events')
-        .setDescription('Scheduled Event that will delete all events before the current date')
+        .setDescription('get all events under a specific prefix')
 				.addStringOption(option =>
             option.setName('server_prefix')
                 .setDescription('The server you are looking for')
