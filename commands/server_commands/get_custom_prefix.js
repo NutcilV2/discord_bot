@@ -14,7 +14,7 @@ module.exports = {
 
 			try {
           const result = await mysqlFunctions.getServerPrefix(guildId);
-					const replyMessage = `Servers Prefix: ${result}`;
+					const replyMessage = `Servers Prefix: ${result[0].Server_Prefix}`;
 					await interaction.reply(replyMessage);
 			} catch (error) {
 					console.error('An error occurred:', error);
