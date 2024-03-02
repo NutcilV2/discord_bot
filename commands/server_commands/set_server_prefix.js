@@ -22,7 +22,7 @@ module.exports = {
 
 			try {
           const currentPrefixObject = await mysqlFunctions.getServerPrefix(guildId);
-          console.log(currentPrefixObject);
+          console.log(currentPrefixObject[0].Server_Prefix);
           if(currentPrefixObject[0].Server_Prefix !== '') {
               let currentPrefix = currentPrefixObject[0].Server_Prefix;
               let currentPrefixWildCard = `[${currentPrefix}]  -  %`
