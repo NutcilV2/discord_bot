@@ -1,20 +1,20 @@
 const connection = require('./dbConnection');
 const schedule = require('node-schedule');
 
-const userCache = new Set();
+const serverCache = new Set();
 
 function refreshServerCache() {
-    userCache.clear(); // Clear the current cache to refresh it
+    serverCache.clear(); // Clear the current cache to refresh it
     const query = 'SELECT Server_Id FROM servers';
 
     connection.query(query, (error, results, fields) => {
         if (error) throw error;
 
         results.forEach(row => {
-            userCache.add(row.User_Id);
+            serverCache.add(row.Server_Id);
         });
 
-        console.log('Servers Cached: ', userCache.size);
+        console.log('Servers Cached: ', serverCache.size);
     });
 }
 
@@ -23,14 +23,14 @@ refreshServerCache();
 
 schedule.scheduleJob('0 * * * *', function() {
     console.log('Refreshing server cache...');
-    refreshUserCache();
+    refreshserverCache();
 });
 
 
 
 function isServerCached(server_id) {
     return new Promise((resolve, reject) => {
-        const cached = userCache.has(server_id);
+        const cached = serverCache.has(server_id);
         if (!cached) {
             console.log('Caching the server: ', server_id);
             const sql = `
@@ -41,7 +41,7 @@ function isServerCached(server_id) {
                 if (error) {
                     reject(error);
                 } else {
-                    cacheUser(server_id); // Add to cache after successful insertion
+                    cacheServer(server_id); // Add to cache after successful insertion
                     resolve(results);
                 }
             });
@@ -53,13 +53,13 @@ function isServerCached(server_id) {
 
 
 
-function cacheServer(user_id) {
-    userCache.add(user_id);
+function cacheServer(server_id) {
+    serverCache.add(server_id);
 }
 
 
 
 module.exports = {
-    isUserCached,
-    cacheUser
+    isServerCached,
+    cacheServer
 };
