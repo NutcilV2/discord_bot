@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { sanitizeInput } = require('../../utility/inputSanitizer.js');
 const mysqlFunctions = require('../../utility/mysqlFunctions');
+const cachedServers = require('../../utility/cachedServers');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -16,6 +17,7 @@ module.exports = {
 			const user_username = interaction.user.username;
       const guildId = interaction.guildId;
       const isCached = await cachedUsers.isUserCached(user_id, user_username);
+      const isServerCached = await cachedServers.isServerCached(guildId);
       const prefix = sanitizeInput(interaction.options.getString('prefix')).replace(/\[|\]/g, '');
 
 			try {
