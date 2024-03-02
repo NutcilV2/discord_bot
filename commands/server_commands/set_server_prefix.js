@@ -22,7 +22,7 @@ module.exports = {
       const prefixAvailability = mysqlFunctions.getServerPrefixAvailability(prefix);
 
       if(prefixAvailability) {
-          await interaction.reply('This Prefix is already in use.');
+          await interaction.reply('This Prefix is already in use by another server and therefor can not be used.');
           return;
       }
 
