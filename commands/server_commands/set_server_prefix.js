@@ -19,6 +19,12 @@ module.exports = {
       const isCached = await cachedUsers.isUserCached(user_id, user_username);
       const isServerCached = await cachedServers.isServerCached(guildId);
       const prefix = sanitizeInput(interaction.options.getString('prefix')).replace(/\[|\]/g, '');
+      const prefixAvailability = mysqlFunctions.getServerPrefixAvailability(prefix);
+
+      if(prefixAvailability) {
+          await interaction.reply('This Prefix is already in use.');
+          return;
+      }
 
 			try {
           const currentPrefixObject = await mysqlFunctions.getServerPrefix(guildId);
