@@ -8,6 +8,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const connection = require('./utility/dbConnection');
 const cachedUsers = require('./utility/cachedUsers');
+const cachedServers = require('./utility/cachedServers');
 
 config();
 
