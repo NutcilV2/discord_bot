@@ -12,6 +12,7 @@ module.exports = {
 			const user_username = interaction.user.username;
       const guildId = interaction.guildId;
       const isCached = await cachedUsers.isUserCached(user_id, user_username);
+      const isServerCached = await cachedServers.isServerCached(guildId);
 
 			try {
           const result = await mysqlFunctions.getServerPrefix(guildId);
