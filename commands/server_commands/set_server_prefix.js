@@ -30,7 +30,11 @@ module.exports = {
               currentPrefix = `[${currentPrefix}]  -  `
               let new_prefix = `[${prefix}]  -  `;
 
-              console.log(currentPrefix, new_prefix, currentPrefixWildCard);
+              console.log(`
+                  UPDATE events
+                  SET Event_Title = REPLACE(Event_Title, '${currentPrefix}', '${new_prefix}')
+                  WHERE Event_Title LIKE '${currentPrefixWildCard}' AND Event_ID > 0;
+              `);
 
               mysqlFunctions.updateServerEventNames(currentPrefix, new_prefix, currentPrefixWildCard);
           }
