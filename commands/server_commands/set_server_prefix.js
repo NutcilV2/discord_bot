@@ -30,6 +30,8 @@ module.exports = {
               currentPrefix = `[${currentPrefix}]  -  `
               let new_prefix = `[${prefix}]  -  `;
 
+              console.log(currentPrefix, new_prefix, currentPrefixWildCard);
+
               mysqlFunctions.updateServerEventNames(currentPrefix, new_prefix, currentPrefixWildCard);
           }
 
