@@ -175,7 +175,7 @@ function updateServerEventNames(server_id, current_prefix, new_prefix, currentPr
         const sql = `
             UPDATE events
             SET Event_Title = REPLACE(Event_Title, ?, ?)
-            WHERE Event_Title LIKE ?;
+            WHERE Event_Title LIKE ? AND Event_ID > 0;
         `;
         connection.query(sql, [current_prefix, new_prefix, currentPrefixWildCard], (error, results) => {
             if (error) {
