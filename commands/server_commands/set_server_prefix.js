@@ -23,19 +23,11 @@ module.exports = {
 			try {
           const currentPrefixObject = await mysqlFunctions.getServerPrefix(guildId);
           let currentPrefix = currentPrefixObject[0].Server_Prefix;
-          console.log(currentPrefix);
           if(currentPrefix != '') {
               console.log('UPDATING EVENTS')
               let currentPrefixWildCard = `[${currentPrefix}]  -  %`
               currentPrefix = `[${currentPrefix}]  -  `
               let new_prefix = `[${prefix}]  -  `;
-
-              console.log(`
-                  UPDATE events
-                  SET Event_Title = REPLACE(Event_Title, '${currentPrefix}', '${new_prefix}')
-                  WHERE Event_Title LIKE '${currentPrefixWildCard}' AND Event_ID > 0;
-              `);
-
               mysqlFunctions.updateServerEventNames(currentPrefix, new_prefix, currentPrefixWildCard);
           }
 
