@@ -170,14 +170,14 @@ function updateServerPrefix(server_id, server_prefix) {
     });
 }
 
-function updateServerEventNames(server_id, server_prefix) {
+function updateServerEventNames(server_id, current_prefix, new_prefix, currentPrefixWildCard) {
     return new Promise((resolve, reject) => {
         const sql = `
-            INSERT INTO servers (Server_Id, Server_Prefix)
-            VALUES (?, ?)
-            ON DUPLICATE KEY UPDATE Server_Prefix = ?;
+            UPDATE events
+            SET Event_Name = REPLACE(Event_Name, ?, ?)
+            WHERE Event_Name LIKE ?;
         `;
-        connection.query(sql, [server_id, server_prefix, server_prefix], (error, results) => {
+        connection.query(sql, [current_prefix, new_prefix, currentPrefixWildCard], (error, results) => {
             if (error) {
                 reject(error);
             } else {
@@ -220,5 +220,6 @@ module.exports = {
     addEvent,
 
     updateServerPrefix,
+    updateServerEventNames,
     getServerPrefix,
 };
