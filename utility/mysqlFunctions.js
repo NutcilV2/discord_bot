@@ -174,8 +174,8 @@ function updateServerEventNames(server_id, current_prefix, new_prefix, currentPr
     return new Promise((resolve, reject) => {
         const sql = `
             UPDATE events
-            SET Event_Name = REPLACE(Event_Name, ?, ?)
-            WHERE Event_Name LIKE ?;
+            SET Event_Title = REPLACE(Event_Title, ?, ?)
+            WHERE Event_Title LIKE ?;
         `;
         connection.query(sql, [current_prefix, new_prefix, currentPrefixWildCard], (error, results) => {
             if (error) {
