@@ -170,7 +170,7 @@ function updateServerPrefix(server_id, server_prefix) {
     });
 }
 
-function updateServerEventNames(server_id, current_prefix, new_prefix, currentPrefixWildCard) {
+function updateServerEventNames(current_prefix, new_prefix, currentPrefixWildCard) {
     return new Promise((resolve, reject) => {
         const sql = `
             UPDATE events
