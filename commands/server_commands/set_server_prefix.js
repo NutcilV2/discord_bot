@@ -22,11 +22,12 @@ module.exports = {
 
 			try {
           const currentPrefixObject = await mysqlFunctions.getServerPrefix(guildId);
-          const currentPrefix = currentPrefixObject[0].Server_Prefix;
+          let currentPrefix = currentPrefixObject[0].Server_Prefix;
           console.log(currentPrefix);
           if(currentPrefix != '') {
               console.log('UPDATING EVENTS')
               let currentPrefixWildCard = `[${currentPrefix}]  -  %`
+              currentPrefix = `[${currentPrefix}]  -  `
               let new_prefix = `[${prefix}]  -  `;
 
               mysqlFunctions.updateServerEventNames(currentPrefix, new_prefix, currentPrefixWildCard);
