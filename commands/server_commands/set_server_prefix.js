@@ -21,6 +21,11 @@ module.exports = {
       const prefix = sanitizeInput(interaction.options.getString('prefix')).replace(/\[|\]/g, '');
 
 			try {
+          const currentPrefixObject = await mysqlFunctions.getServerPrefix(guildId);
+          if(currentPrefix) {
+              let currentPrefix = currentPrefixObject[0].Server_Prefix;
+              currentPrefix = `[${currentPrefix}]  -  %`
+          }
           const result = await mysqlFunctions.updateServerPrefix(guildId, prefix);
 					const replyMessage = `You've set your Servers Prefix`;
 					await interaction.reply(replyMessage);
