@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 function parseFilter(input) {
     const regex = /(?!\s*$)\s*(?:(?:"([^"]*)")|([^,]+))\s*(?:,|$)/g;
@@ -27,15 +27,32 @@ module.exports = {
         try {
             const users = await fetchUsersWithDirectMsgEnabled(connection);
             for (const user of users) {
-                const events = await fetchRelevantEventsForUser(connection, user, formattedDate);
-                const eventString = events.map(e => `${e.Event_Id}: ${e.Event_Title}`).join('\n');
-                const messageContent = eventString ? `Your events:\n${eventString}` : 'No upcoming events for you.';
-                // Placeholder for sending DM; implement based on your bot's functionality
-                console.log(`Sending to ${user.User_Username}: ${messageContent}`);
+                const result = await fetchRelevantEventsForUser(connection, user, formattedDate);
+                const eventsArray = result.map(item => ({
+        				    id: item.Event_Id,
+        				    name: item.Event_Title,
+        				    date: item.Event_Date
+        				}));
+
+        				// Create an array of just the ids
+        				const idsArray = eventsArray.map(event => event.id);
+        				const titlesArray = eventsArray.map(event => event.name);
+        				const datesArray = eventsArray.map(event => event.date);
+
+        				const idsArrayString    = idsArray.map(item    => `${item}`).join('\n');
+        				const titlesArrayString = titlesArray.map(item => `${item}`).join('\n');
+        				const datesArrayString  = datesArray.map(item  => `${item}`).join('\n');
+
+        				let embedMessage = new EmbedBuilder();
+        				embedMessage.setAuthor({ name: user_username, iconUrl: interaction.user.avatarURL()});
+
+        				embedMessage.addFields({ name:`IDs`, value:idsArrayString, inline:true});
+        				embedMessage.addFields({ name:`TITLEs`, value:titlesArrayString, inline:true});
+        				embedMessage.addFields({ name:`DATEs`, value:datesArrayString, inline:true});
 
 								client.users.fetch(user.User_Id)
 							  .then(user => {
-							    user.send({ content: `${messageContent}` })
+							    user.send({ embeds: [embedMessage] })
 							      .then(() => console.log(`Successfully sent a DM to ${user.tag}.`))
 							      .catch(error => console.error(`Could not send DM to ${user.tag}.`, error));
 							  })
