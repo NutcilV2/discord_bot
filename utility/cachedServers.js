@@ -23,7 +23,7 @@ refreshServerCache();
 
 schedule.scheduleJob('0 * * * *', function() {
     console.log('Refreshing server cache...');
-    refreshserverCache();
+    refreshServerCache();
 });
 
 
