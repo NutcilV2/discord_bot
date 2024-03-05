@@ -43,7 +43,7 @@ module.exports = {
 				}
 
         try {
-            let queryString = `SELECT Event_Id, Event_Title FROM events WHERE Event_Date = ?`;
+            let queryString = `SELECT Event_Id, Event_Title, Event_Date FROM events WHERE Event_Date = ?`;
 
             if(applyFilter) {
                 const filterString = await mysqlFunctions.fetchUserFilters(user_id);
