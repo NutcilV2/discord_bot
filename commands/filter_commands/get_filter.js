@@ -30,6 +30,11 @@ module.exports = {
                 );
             }
 
+            
+            embedMessage.addFields(
+                { name:`     `, value:`     `, inline:true}
+            );
+
 
             if (blacklistString) {
                 const parsed = mysqlFunctions.parseFilter(blacklistString);
