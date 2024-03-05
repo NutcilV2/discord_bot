@@ -12,15 +12,14 @@ module.exports = {
 
         try {
             const filterString = await mysqlFunctions.fetchUserFilters(user_id);
+            const blacklistString = await mysqlFunctions.fetchUserBlacklists(user_id);
+
             let embedMessage = new EmbedBuilder();
             embedMessage.setAuthor({ name: user_username, iconUrl: interaction.user.avatarURL()});
 
             if (filterString) {
                 const parsed = mysqlFunctions.parseFilter(filterString);
                 const formattedFilterString = parsed.map(item => `${item}`).join('\n') + '\n';
-                embedMessage.setTitle('Your Filters')
-                    .setDescription(formattedFilterString)
-                    .setColor('#0099ff'); // You can change the color to whatever you like
 
                 embedMessage.addFields(
                     { name:`Filters`, value:formattedFilterString, inline:true}
@@ -28,6 +27,20 @@ module.exports = {
             } else {
                 embedMessage.addFields(
                     { name:`Filters`, value:'You don\'t have any Filters', inline:true}
+                );
+            }
+
+
+            if (filterString) {
+                const parsed = mysqlFunctions.parseFilter(blacklistString);
+                const formattedBlacklistString = parsed.map(item => `${item}`).join('\n') + '\n';
+
+                embedMessage.addFields(
+                    { name:`Blacklist`, value:formattedBlacklistString, inline:true}
+                );
+            } else {
+                embedMessage.addFields(
+                    { name:`Blacklist`, value:'You don\'t have any Filters', inline:true}
                 );
             }
 
