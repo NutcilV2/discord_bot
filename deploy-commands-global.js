@@ -25,7 +25,7 @@ function loadCommands(directory) {
             const command = require(itemPath);
             if ('data' in command && 'execute' in command) {
                 // Set a new item in the Collection with the key as the command name and the value as the exported module
-                client.commands.set(command.data.name, command);
+                commands.push(command.data.toJSON());
             } else {
                 console.log(`[WARNING] The command at ${itemPath} is missing a required "data" or "execute" property.`);
             }
