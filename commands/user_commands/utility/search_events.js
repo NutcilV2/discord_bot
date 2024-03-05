@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { sanitizeInput } = require('../../../utility/inputSanitizer.js');
 const mysqlFunctions = require('../../../utility/mysqlFunctions');
 
