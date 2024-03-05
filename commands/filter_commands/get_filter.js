@@ -13,7 +13,7 @@ module.exports = {
         try {
             const filterString = await mysqlFunctions.fetchUserFilters(user_id);
             let embedMessage = new EmbedBuilder();
-            embedMessage.setAuthor({ name: user_username, iconUrl: interaction.user.avatarURL()})
+            embedMessage.setAuthor({ name: user_username, iconUrl: interaction.user.avatarURL()});
 
             if (filterString) {
                 const parsed = mysqlFunctions.parseFilter(filterString);
@@ -21,9 +21,14 @@ module.exports = {
                 embedMessage.setTitle('Your Filters')
                     .setDescription(formattedFilterString)
                     .setColor('#0099ff'); // You can change the color to whatever you like
+
+                embedMessage.addFields(
+                    { name:`Filters`, value:formattedFilterString, inline:true}
+                );
             } else {
-                embedMessage.setDescription('You don\'t have any Filters')
-                    .setColor('#ff0000'); // Change color if needed
+                embedMessage.addFields(
+                    { name:`Filters`, value:'You don\'t have any Filters', inline:true}
+                );
             }
 
             console.log(embedMessage);
