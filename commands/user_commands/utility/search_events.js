@@ -49,7 +49,7 @@ module.exports = {
 
     try {
         const result = await mysqlFunctions.runQuery(queryString, formattedDate);
-				const eventString = result.map(item => `${item.Event_Id}: ${item.Event_Title} on ${item.Event_Date}`).join('\n');
+				// const eventString = result.map(item => `${item.Event_Id}: ${item.Event_Title} on ${item.Event_Date}`).join('\n');
 
 				const eventsArray = result.map(item => ({
 				    id: item.Event_Id,
