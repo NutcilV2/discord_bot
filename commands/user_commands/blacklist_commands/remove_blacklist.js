@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { sanitizeInput } = require('../../utility/inputSanitizer.js');
-const mysqlFunctions = require('../../utility/mysqlFunctions');
+const { sanitizeInput } = require('../../../utility/inputSanitizer.js');
+const mysqlFunctions = require('../../../utility/mysqlFunctions');
 
 module.exports = {
     data: new SlashCommandBuilder()
