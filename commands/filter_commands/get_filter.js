@@ -26,7 +26,7 @@ module.exports = {
                 );
             } else {
                 embedMessage.addFields(
-                    { name:`Filters`, value:'You don\'t have any Filters', inline:true}
+                    { name:`Filters`, value:'Empty', inline:true}
                 );
             }
 
@@ -40,7 +40,7 @@ module.exports = {
                 );
             } else {
                 embedMessage.addFields(
-                    { name:`Blacklist`, value:'You don\'t have any Filters', inline:true}
+                    { name:`Blacklist`, value:`Empty`, inline:true}
                 );
             }
 
