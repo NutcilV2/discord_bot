@@ -31,7 +31,7 @@ module.exports = {
             }
 
 
-            if (filterString) {
+            if (blacklistString) {
                 const parsed = mysqlFunctions.parseFilter(blacklistString);
                 const formattedBlacklistString = parsed.map(item => `${item}`).join('\n') + '\n';
 
