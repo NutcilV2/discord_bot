@@ -13,7 +13,7 @@ module.exports = {
         try {
             const filterString = await mysqlFunctions.fetchUserFilters(user_id);
             let embedMessage = new EmbedBuilder();
-            EmbedBuilder.setAuthor({ name: user_username, iconUrl: interaction.user.avatarURL()})
+            embedMessage.setAuthor({ name: user_username, iconUrl: interaction.user.avatarURL()})
 
             if (filterString) {
                 const parsed = mysqlFunctions.parseFilter(filterString);
