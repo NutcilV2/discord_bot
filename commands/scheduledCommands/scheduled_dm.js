@@ -45,7 +45,7 @@ module.exports = {
 
         				let embedMessage = new EmbedBuilder();
         				embedMessage.setAuthor({ name: user_username, iconUrl: interaction.user.avatarURL()});
-                embedMessage.setTitle('Daily Report');
+                embedMessage.setTitle('Your Daily Report');
 
         				embedMessage.addFields({ name:`IDs`, value:idsArrayString, inline:true});
         				embedMessage.addFields({ name:`TITLEs`, value:titlesArrayString, inline:true});
