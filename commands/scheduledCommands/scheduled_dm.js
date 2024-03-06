@@ -5,7 +5,7 @@ const mysqlFunctions = require('../../utility/mysqlFunctions');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('scheduled_dm')
-        .setDescription('Scheduled Event that will delete all events before the current date'),
+        .setDescription('Sends all users a list of events that are confined to their filters'),
     async execute(client, connection, cachedUsers, isScheduled = false) {
         if (!isScheduled) {
             return;
