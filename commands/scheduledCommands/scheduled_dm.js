@@ -44,7 +44,6 @@ module.exports = {
         				const datesArrayString  = datesArray.map(item  => `${item}`).join('\n');
 
         				let embedMessage = new EmbedBuilder();
-        				embedMessage.setAuthor({ name: user.name});
                 embedMessage.setTitle('Your Daily Report');
 
         				embedMessage.addFields({ name:`IDs`, value:idsArrayString, inline:true});
