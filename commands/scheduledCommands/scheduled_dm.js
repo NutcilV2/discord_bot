@@ -1,15 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-
-function parseFilter(input) {
-    const regex = /(?!\s*$)\s*(?:(?:"([^"]*)")|([^,]+))\s*(?:,|$)/g;
-    let result = [];
-    let match;
-    while ((match = regex.exec(input)) !== null) {
-        // Add matched group 1 or group 2 to the result
-        result.push(match[1] || match[2]);
-    }
-    return result.filter(Boolean); // Filter out any empty strings just in case
-}
+const mysqlFunctions = require('../../utility/mysqlFunctions');
 
 
 module.exports = {
@@ -78,7 +68,7 @@ async function fetchUsersWithDirectMsgEnabled(connection) {
 async function fetchRelevantEventsForUser(connection, user, beforeDate) {
     // Assuming `User_Filter` affects the event selection; adjust query as needed
 		const input = user.User_Filter;
-		const parsed = parseFilter(input);
+		const parsed = mysqlFunctions.parseFilter(input);
 		const likeConditions = parsed.map(term  => `Event_Title LIKE '%${term}%'`);
 		let queryString;
 		if(!likeConditions) {
