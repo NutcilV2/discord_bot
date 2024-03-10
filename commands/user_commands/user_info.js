@@ -15,7 +15,7 @@ module.exports = {
             const blacklistString = await mysqlFunctions.fetchUserBlacklists(user_id);
 
             let embedMessage = new EmbedBuilder();
-            embedMessage.setAuthor({ name: user_username, iconUrl: interaction.user.avatarURL()});
+            embedMessage.setTitle('Your Settings');
 
             if (filterString) {
                 const parsed = mysqlFunctions.parseFilter(filterString);
