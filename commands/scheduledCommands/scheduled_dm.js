@@ -37,7 +37,7 @@ module.exports = {
                 embedMessage.setTitle('Your Daily Report');
 
         				//embedMessage.addFields({ name:`IDs`, value:idsArrayString, inline:true});
-        				embedMessage.addFields({ name:`TITLEs`, value:titlesArrayString, inline:true});
+        				embedMessage.addFields({ name:`EVENTs`, value:titlesArrayString, inline:true});
         				//embedMessage.addFields({ name:`DATEs`, value:datesArrayString, inline:true});
 
 								client.users.fetch(user.User_Id)
