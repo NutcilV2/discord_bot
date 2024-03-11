@@ -49,16 +49,16 @@ module.exports = {
     				embedMessage.setAuthor({ name: user_username, iconUrl: interaction.user.avatarURL()});
 
     				embedMessage.addFields(
-                { name:`ID`, value:idsArrayString, inline:false},
+                { name:`ID`, value:idsArrayString, inline:true},
                 { name:`TITLE`, value:titlesArrayString, inline:true}
             );
 
+            embedMessage.addFields({ name:`LOCATION`, value:locationsArrayString, inline:false});
+
     				embedMessage.addFields(
-                { name:`DATE`, value:datesArrayString, inline:false},
+                { name:`DATE`, value:datesArrayString, inline:true},
                 { name:`TIME`, value:timesArrayString, inline:true}
             );
-
-            embedMessage.addFields({ name:`LOCATION`, value:locationsArrayString, inline:false});
 
 
             // Ensure results are formatted in a way that can be sent in a message
