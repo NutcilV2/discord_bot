@@ -1,102 +1,88 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const mysqlFunctions = require('../../../utility/mysqlFunctions');
+const mysqlFunctions = require('../../utility/mysqlFunctions');
+
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('events')
-        .setDescription('Scheduled Event that will delete all events before the current date')
-				.addBooleanOption(option =>
-            option.setName('apply_filter')
-                .setDescription('Select if you want your filter applied or not. Default = True')
-                .setRequired(false) // This makes the parameter optional
-        )
-        .addStringOption(option =>
-            option.setName('date')
-                .setDescription('The date to filter events')
-                .setRequired(false) // This makes the parameter optional
+        .setName('event_info')
+        .setDescription('Returns all the information on the Event by ID')
+        .addIntegerOption(option =>
+            option.setName('id')
+                .setDescription('The ID of the Event you want more info on')
+                .setRequired(true) // This makes the parameter optional
         ),
-    async execute(interaction, connection, cachedUsers) {
-        const user_id = interaction.user.id;
-  			const user_username = interaction.user.username;
-        const isCached = await cachedUsers.isUserCached(user_id, user_username);
+    async execute(client, connection, cachedUsers, isScheduled = false) {
+        if (!isScheduled) {
+            return;
+        }
 
-        const applyFilter = interaction.options.getBoolean('apply_filter') ?? true;
-
-				let formattedDate;
-		    if (!interaction.options.getString('date')) {
-						const today = new Date();
-						formattedDate = (today.getMonth() + 1).toString().padStart(2, '0') + '/' + today.getDate().toString().padStart(2, '0') + '/' + today.getFullYear();
-		    } else {
-						const tempDate = interaction.options.getString('date');
-						const date = tempDate.replace(/-/g, '/');
-
-						const parts = date.split('/');
-						const formattedMonth = parts[0].padStart(2, '0');
-						const formattedDay = parts[1].padStart(2, '0');
-						let formattedYear = parts[2];
-
-						if (formattedYear.length === 2) {
-						    formattedYear = parseInt(formattedYear, 10) < 50 ? '20' + formattedYear : '19' + formattedYear;
-						}
-
-						formattedDate = [formattedMonth, formattedDay, formattedYear].join('/');
-				}
+        const today = new Date();
+        const formattedDate = (today.getMonth() + 1).toString().padStart(2, '0') + '/' + today.getDate().toString().padStart(2, '0') + '/' + today.getFullYear();
 
         try {
-            let queryString = `SELECT Event_Id, Event_Title, Event_Date FROM events WHERE Event_Date = ?`;
+            const users = await fetchUsersWithDirectMsgEnabled(connection);
+            for (const user of users) {
+                const result = await fetchRelevantEventsForUser(connection, interaction.options.getInteger('id'));
+                const eventsArray = result.map(item => ({
+        				    id: item.Event_Id,
+        				    name: item.Event_Title,
+        				    date: item.Event_Date,
+                    time: item.Event_Time
+        				}));
 
-            if(applyFilter) {
-                const filterString = await mysqlFunctions.fetchUserFilters(user_id);
-                if(filterString) {
-                    const parsed = mysqlFunctions.parseFilter(filterString);
-                    const likeConditions = parsed.map(term  => `Event_Title LIKE '%${term}%'`);
-                    queryString += ` AND (${likeConditions.join(' OR ')})`;
-                }
+        				// Create an array of just the ids
+        				const idsArray = eventsArray.map(event => event.id);
+        				const titlesArray = eventsArray.map(event => event.name);
+        				const datesArray = eventsArray.map(event => event.date);
+                const timesArray = eventsArray.map(event => event.time);
 
-                const blacklistString = await mysqlFunctions.fetchUserBlacklists(user_id);
-                if(blacklistString) {
-                    const parsed = mysqlFunctions.parseFilter(blacklistString);
-                    const likeConditions = parsed.map(term  => `Event_Title NOT LIKE '%${term}%'`);
-                    queryString += ` AND (${likeConditions.join(' AND ')})`;
-                }
+        				const idsArrayString    = idsArray.map(item    => `${item}`).join('\n');
+        				const titlesArrayString = titlesArray.map(item => `${item}`).join('\n');
+        				const datesArrayString  = datesArray.map(item  => `${item}`).join('\n');
+                const timesArrayString  = timesArray.map(item  => `${item}`).join('\n');
+
+        				let embedMessage = new EmbedBuilder();
+                embedMessage.setTitle('Your Daily Report');
+
+        				embedMessage.addFields({ name:`ID`, value:idsArrayString, inline:true});
+        				embedMessage.addFields({ name:`EVENT`, value:titlesArrayString, inline:true});
+                embedMessage.addFields({ name:`TIME`, value:timesArrayString, inline:true});
+        				embedMessage.addFields({ name:`DATE`, value:datesArrayString, inline:true});
+
+								client.users.fetch(user.User_Id)
+							  .then(user => {
+							    user.send({ embeds: [embedMessage] })
+							      .then(() => console.log(`Successfully sent a DM to ${user.tag}.`))
+							      .catch(error => console.error(`Could not send DM to ${user.tag}.`, error));
+							  })
+							  .catch(error => console.error(`Could not fetch user with ID ${userId}.`, error));
             }
-
-            const result = await mysqlFunctions.runQuery(queryString, formattedDate);
-            console.log(result);
-
-            // Format the result for display
-            //const formattedResult = result.map(row => `${row.Event_Id}: ${row.Event_Title}`).join('\n');
-            const eventsArray = result.map(item => ({
-    				    id: item.Event_Id,
-    				    name: item.Event_Title,
-    				    date: item.Event_Date
-    				}));
-
-    				// Create an array of just the ids
-    				const idsArray = eventsArray.map(event => event.id);
-    				const titlesArray = eventsArray.map(event => event.name);
-    				const datesArray = eventsArray.map(event => event.date);
-
-    				const idsArrayString    = idsArray.map(item    => `${item}`).join('\n');
-    				const titlesArrayString = titlesArray.map(item => `${item}`).join('\n');
-    				const datesArrayString  = datesArray.map(item  => `${item}`).join('\n');
-
-    				let embedMessage = new EmbedBuilder();
-    				embedMessage.setAuthor({ name: user_username, iconUrl: interaction.user.avatarURL()});
-
-    				embedMessage.addFields({ name:`IDs`, value:idsArrayString, inline:true});
-    				embedMessage.addFields({ name:`TITLEs`, value:titlesArrayString, inline:true});
-    				embedMessage.addFields({ name:`DATEs`, value:datesArrayString, inline:true});
-
-
-            // Ensure results are formatted in a way that can be sent in a message
-            // For example, converting the results to a string or formatting them as needed
-            //const replyMessage = eventString ? `Events:\n${eventString}` : 'No upcoming events for that criteria.';
-            //await interaction.reply(replyMessage);
-    				await interaction.reply({ embeds: [embedMessage] });
-
+						console.error('Sent all the Direct messages');
         } catch (error) {
             console.error('An error occurred while Sending Direct Messages:', error);
+            // Since this command is not user-invoked, consider logging this error instead of replying to an interaction
         }
     }
 };
+
+async function fetchUsersWithDirectMsgEnabled(connection) {
+    return new Promise((resolve, reject) => {
+        connection.query(`SELECT User_Id, User_Username, User_Filter FROM users WHERE User_DirectMsg = 'T'`, (error, results) => {
+            if (error) reject(error);
+            else resolve(results);
+        });
+    });
+}
+
+async function fetchRelevantEventsForUser(connection, id) {
+    // Assuming `User_Filter` affects the event selection; adjust query as needed
+		let queryString = `SELECT Event_Id, Event_Title, Event_Date, Event_Time FROM events WHERE Event_Id = '${id}'`;
+		console.log(queryString);
+
+    return new Promise((resolve, reject) => {
+        connection.query(queryString, (error, results) => {
+            if (error) reject(error);
+            else resolve(results); // Filter these results based on `user.User_Filter` if necessary
+        });
+    });
+}
