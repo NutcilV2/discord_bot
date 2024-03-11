@@ -45,6 +45,8 @@ module.exports = {
         embedMessage.addFields({ name:`TIME`, value:timesArrayString, inline:true});
         embedMessage.addFields({ name:`DATE`, value:datesArrayString, inline:true});
 
+        console.log(embedMessage);
+
         await interaction.reply({ embeds: [embedMessage] });
     }
 };
