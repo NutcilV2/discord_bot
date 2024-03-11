@@ -18,49 +18,34 @@ module.exports = {
         const today = new Date();
         const formattedDate = (today.getMonth() + 1).toString().padStart(2, '0') + '/' + today.getDate().toString().padStart(2, '0') + '/' + today.getFullYear();
 
-        try {
-            const users = await fetchUsersWithDirectMsgEnabled(connection);
-            for (const user of users) {
-                const result = await fetchRelevantEventsForUser(connection, interaction.options.getInteger('id'));
-                const eventsArray = result.map(item => ({
-        				    id: item.Event_Id,
-        				    name: item.Event_Title,
-        				    date: item.Event_Date,
-                    time: item.Event_Time
-        				}));
+        const result = await fetchRelevantEventsForUser(connection, interaction.options.getInteger('id'));
+        const eventsArray = result.map(item => ({
+            id: item.Event_Id,
+            name: item.Event_Title,
+            date: item.Event_Date,
+            time: item.Event_Time
+        }));
 
-        				// Create an array of just the ids
-        				const idsArray = eventsArray.map(event => event.id);
-        				const titlesArray = eventsArray.map(event => event.name);
-        				const datesArray = eventsArray.map(event => event.date);
-                const timesArray = eventsArray.map(event => event.time);
+        // Create an array of just the ids
+        const idsArray = eventsArray.map(event => event.id);
+        const titlesArray = eventsArray.map(event => event.name);
+        const datesArray = eventsArray.map(event => event.date);
+        const timesArray = eventsArray.map(event => event.time);
 
-        				const idsArrayString    = idsArray.map(item    => `${item}`).join('\n');
-        				const titlesArrayString = titlesArray.map(item => `${item}`).join('\n');
-        				const datesArrayString  = datesArray.map(item  => `${item}`).join('\n');
-                const timesArrayString  = timesArray.map(item  => `${item}`).join('\n');
+        const idsArrayString    = idsArray.map(item    => `${item}`).join('\n');
+        const titlesArrayString = titlesArray.map(item => `${item}`).join('\n');
+        const datesArrayString  = datesArray.map(item  => `${item}`).join('\n');
+        const timesArrayString  = timesArray.map(item  => `${item}`).join('\n');
 
-        				let embedMessage = new EmbedBuilder();
-                embedMessage.setTitle('Your Daily Report');
+        let embedMessage = new EmbedBuilder();
+        embedMessage.setTitle('Your Daily Report');
 
-        				embedMessage.addFields({ name:`ID`, value:idsArrayString, inline:true});
-        				embedMessage.addFields({ name:`EVENT`, value:titlesArrayString, inline:true});
-                embedMessage.addFields({ name:`TIME`, value:timesArrayString, inline:true});
-        				embedMessage.addFields({ name:`DATE`, value:datesArrayString, inline:true});
+        embedMessage.addFields({ name:`ID`, value:idsArrayString, inline:true});
+        embedMessage.addFields({ name:`EVENT`, value:titlesArrayString, inline:true});
+        embedMessage.addFields({ name:`TIME`, value:timesArrayString, inline:true});
+        embedMessage.addFields({ name:`DATE`, value:datesArrayString, inline:true});
 
-								client.users.fetch(user.User_Id)
-							  .then(user => {
-							    user.send({ embeds: [embedMessage] })
-							      .then(() => console.log(`Successfully sent a DM to ${user.tag}.`))
-							      .catch(error => console.error(`Could not send DM to ${user.tag}.`, error));
-							  })
-							  .catch(error => console.error(`Could not fetch user with ID ${userId}.`, error));
-            }
-						console.error('Sent all the Direct messages');
-        } catch (error) {
-            console.error('An error occurred while Sending Direct Messages:', error);
-            // Since this command is not user-invoked, consider logging this error instead of replying to an interaction
-        }
+        await interaction.reply({ embeds: [embedMessage] });
     }
 };
 
