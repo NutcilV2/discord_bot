@@ -28,7 +28,8 @@ module.exports = {
     				    id: item.Event_Id,
     				    name: item.Event_Title,
     				    date: item.Event_Date,
-                time: item.Event_Time
+                time: item.Event_Time,
+                location: item.Event_Description
     				}));
 
     				// Create an array of just the ids
@@ -36,11 +37,13 @@ module.exports = {
     				const titlesArray = eventsArray.map(event => event.name);
     				const datesArray = eventsArray.map(event => event.date);
             const timesArray = eventsArray.map(event => event.time);
+            const locationsArray = eventsArray.map(event => event.location);
 
     				const idsArrayString    = idsArray.map(item    => `${item}`).join('\n');
     				const titlesArrayString = titlesArray.map(item => `${item}`).join('\n');
     				const datesArrayString  = datesArray.map(item  => `${item}`).join('\n');
             const timesArrayString  = timesArray.map(item  => `${item}`).join('\n');
+            const locationsArrayString  = locationsArray.map(item  => `${item}`).join('\n');
 
     				let embedMessage = new EmbedBuilder();
     				embedMessage.setAuthor({ name: user_username, iconUrl: interaction.user.avatarURL()});
@@ -49,6 +52,7 @@ module.exports = {
     				embedMessage.addFields({ name:`TITLE`, value:titlesArrayString, inline:true});
     				embedMessage.addFields({ name:`DATE`, value:datesArrayString, inline:true});
             embedMessage.addFields({ name:`TIME`, value:timesArrayString, inline:true});
+            embedMessage.addFields({ name:`LOCATION`, value:locationsArrayString, inline:true});
 
 
             // Ensure results are formatted in a way that can be sent in a message
