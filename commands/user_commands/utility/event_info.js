@@ -49,12 +49,12 @@ module.exports = {
     				embedMessage.setAuthor({ name: user_username, iconUrl: interaction.user.avatarURL()});
 
     				embedMessage.addFields(
-                { name:`ID`, value:idsArrayString, inline:true},
+                { name:`ID`, value:idsArrayString, inline:false},
                 { name:`TITLE`, value:titlesArrayString, inline:true}
             );
 
     				embedMessage.addFields(
-                { name:`DATE`, value:datesArrayString, inline:true},
+                { name:`DATE`, value:datesArrayString, inline:false},
                 { name:`TIME`, value:timesArrayString, inline:true}
             );
 
