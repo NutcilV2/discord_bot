@@ -27,24 +27,28 @@ module.exports = {
             const eventsArray = result.map(item => ({
     				    id: item.Event_Id,
     				    name: item.Event_Title,
-    				    date: item.Event_Date
+    				    date: item.Event_Date,
+                time: item.Event_Time
     				}));
 
     				// Create an array of just the ids
     				const idsArray = eventsArray.map(event => event.id);
     				const titlesArray = eventsArray.map(event => event.name);
     				const datesArray = eventsArray.map(event => event.date);
+            const timesArray = eventsArray.map(event => event.time);
 
     				const idsArrayString    = idsArray.map(item    => `${item}`).join('\n');
     				const titlesArrayString = titlesArray.map(item => `${item}`).join('\n');
     				const datesArrayString  = datesArray.map(item  => `${item}`).join('\n');
+            const timesArrayString  = timesArray.map(item  => `${item}`).join('\n');
 
     				let embedMessage = new EmbedBuilder();
     				embedMessage.setAuthor({ name: user_username, iconUrl: interaction.user.avatarURL()});
 
-    				embedMessage.addFields({ name:`IDs`, value:idsArrayString, inline:true});
-    				embedMessage.addFields({ name:`TITLEs`, value:titlesArrayString, inline:true});
-    				embedMessage.addFields({ name:`DATEs`, value:datesArrayString, inline:true});
+    				embedMessage.addFields({ name:`ID`, value:idsArrayString, inline:true});
+    				embedMessage.addFields({ name:`TITLE`, value:titlesArrayString, inline:true});
+    				embedMessage.addFields({ name:`DATE`, value:datesArrayString, inline:true});
+            embedMessage.addFields({ name:`TIME`, value:timesArrayString, inline:true});
 
 
             // Ensure results are formatted in a way that can be sent in a message
