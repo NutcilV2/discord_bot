@@ -21,23 +21,27 @@ module.exports = {
                 const eventsArray = result.map(item => ({
         				    id: item.Event_Id,
         				    name: item.Event_Title,
-        				    date: item.Event_Date
+        				    date: item.Event_Date,
+                    time: item.Event_Time
         				}));
 
         				// Create an array of just the ids
         				const idsArray = eventsArray.map(event => event.id);
         				const titlesArray = eventsArray.map(event => event.name);
         				const datesArray = eventsArray.map(event => event.date);
+                const timesArray = eventsArray.map(event => event.time);
 
         				const idsArrayString    = idsArray.map(item    => `${item}`).join('\n');
         				const titlesArrayString = titlesArray.map(item => `${item}`).join('\n');
         				const datesArrayString  = datesArray.map(item  => `${item}`).join('\n');
+                const timesArrayString  = timesArray.map(item  => `${item}`).join('\n');
 
         				let embedMessage = new EmbedBuilder();
                 embedMessage.setTitle('Your Daily Report');
 
         				//embedMessage.addFields({ name:`IDs`, value:idsArrayString, inline:true});
         				embedMessage.addFields({ name:`EVENTs`, value:titlesArrayString, inline:true});
+                embedMessage.addFields({ name:`TIMEs`, value:timesArrayString, inline:true});
         				//embedMessage.addFields({ name:`DATEs`, value:datesArrayString, inline:true});
 
 								client.users.fetch(user.User_Id)
