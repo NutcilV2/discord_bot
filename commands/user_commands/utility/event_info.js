@@ -3,7 +3,7 @@ const mysqlFunctions = require('../../../utility/mysqlFunctions');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('events')
+        .setName('event_info')
         .setDescription('Scheduled Event that will delete all events before the current date')
         .addIntegerOption(option =>
             option.setName('id')
