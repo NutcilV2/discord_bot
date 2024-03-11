@@ -19,7 +19,7 @@ module.exports = {
             const id = interaction.options.getInteger('id');
             let queryString = `SELECT Event_Id, Event_Title, Event_Date, Event_Time FROM events WHERE Event_Id = '${id}'`;
 
-            const result = await mysqlFunctions.runQuery(queryString, formattedDate);
+            const result = await mysqlFunctions.runQuery(queryString, id);
             console.log(result);
 
             // Format the result for display

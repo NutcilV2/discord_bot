@@ -27,9 +27,9 @@ function parseDate(input) {
   return [formattedMonth, formattedDay, formattedYear].join('/');
 }
 
-function runQuery(customQuery, formattedDate) {
+function runQuery(customQuery, parameter) {
     return new Promise((resolve, reject) => {
-        connection.query(customQuery, [formattedDate], (error, results) => {
+        connection.query(customQuery, [parameter], (error, results) => {
             if (error) {
                 reject(error);
             } else {
