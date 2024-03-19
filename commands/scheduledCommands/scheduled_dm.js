@@ -63,9 +63,9 @@ module.exports = {
                     }
                 }
 
-                if(unfilteredArrayList.length - idsArray.length > 0) {
-                    embedMessage.addFields({ value:`Other Events: ${unfilteredArrayList.length - idsArray.length}`} )
-                }
+                //if(unfilteredArrayList.length - idsArray.length > 0) {
+                //    embedMessage.addFields({ value:`Other Events: ${unfilteredArrayList.length - idsArray.length}`} )
+                //}
 
         				//embedMessage.addFields({ name:`IDs`, value:idsArrayString, inline:true});
         				//embedMessage.addFields({ name:`EVENTs`, value:titlesArrayString, inline:true});
