@@ -64,7 +64,7 @@ module.exports = {
                 }
 
                 if(unfilteredArrayList.length - idsArray.length > 0) {
-                    embedMessage.addFields({ name: '\u200B', value:`Other Events: ${unfilteredArrayList.length - idsArray.length}`} )
+                    embedMessage.addFields({ name: '\u200B', value:`There are ${unfilteredArrayList.length - idsArray.length} other events!`} )
                 }
 
         				//embedMessage.addFields({ name:`IDs`, value:idsArrayString, inline:true});
