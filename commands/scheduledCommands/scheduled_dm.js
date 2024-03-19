@@ -57,14 +57,13 @@ module.exports = {
                 }
                 else {
                     if(unfilteredArrayList.length - idsArray.length > 0) {
-                        embedMessage.addFields({ name: '\u200B', value:`There are no events for you today`} )
+                        embedMessage.setDescription(`There are no events for you today`);
                     } else {
-                        embedMessage.addFields({ name: '\u200B', value:`There are no events today`} )
+                        embedMessage.setDescription(`There are no events today`);
                     }
                 }
 
                 if(unfilteredArrayList.length - idsArray.length > 0) {
-                    embedMessage.addFields({ name: '\u200B', value:`There are no events today`} ),
                     embedMessage.addFields({ name: '\u200B', value:`Other Events: ${unfilteredArrayList.length - idsArray.length}`} )
                 }
 
