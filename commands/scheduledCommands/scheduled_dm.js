@@ -24,7 +24,25 @@ module.exports = {
         try {
             const users = await fetchUsersWithDirectMsgEnabled(connection);
             for (const user of users) {
-                const result = await fetchRelevantEventsForUser(connection, user, formattedDate);
+                let queryString = `SELECT Event_Id, Event_Title, Event_Date FROM events WHERE Event_Date = ?`;
+
+                if(applyFilter) {
+                    const filterString = await mysqlFunctions.fetchUserFilters(user_id);
+                    if(filterString) {
+                        const parsed = mysqlFunctions.parseFilter(filterString);
+                        const likeConditions = parsed.map(term  => `Event_Title LIKE '%${term}%'`);
+                        queryString += ` AND (${likeConditions.join(' OR ')})`;
+                    }
+
+                    const blacklistString = await mysqlFunctions.fetchUserBlacklists(user_id);
+                    if(blacklistString) {
+                        const parsed = mysqlFunctions.parseFilter(blacklistString);
+                        const likeConditions = parsed.map(term  => `Event_Title NOT LIKE '%${term}%'`);
+                        queryString += ` AND (${likeConditions.join(' AND ')})`;
+                    }
+                }
+
+                const result = await mysqlFunctions.runQuery(queryString, formattedDate);
                 const eventsArray = result.map(item => ({
         				    id: item.Event_Id,
         				    name: item.Event_Title,
@@ -93,27 +111,6 @@ async function fetchUsersWithDirectMsgEnabled(connection) {
         connection.query(`SELECT User_Id, User_Username, User_Filter FROM users WHERE User_DirectMsg = 'T'`, (error, results) => {
             if (error) reject(error);
             else resolve(results);
-        });
-    });
-}
-
-async function fetchRelevantEventsForUser(connection, user, beforeDate) {
-    // Assuming `User_Filter` affects the event selection; adjust query as needed
-		const input = user.User_Filter;
-		const parsed = mysqlFunctions.parseFilter(input);
-		const likeConditions = parsed.map(term  => `Event_Title LIKE '%${term}%'`);
-		let queryString;
-		if(!likeConditions) {
-				queryString = `SELECT Event_Id, Event_Title, Event_Date, Event_Time FROM events WHERE Event_Date = '${beforeDate}'`;
-		} else {
-				queryString = `SELECT Event_Id, Event_Title, Event_Date, Event_Time FROM events WHERE Event_Date = '${beforeDate}' AND (${likeConditions.join(' OR ')})`;
-		}
-		console.log(queryString);
-
-    return new Promise((resolve, reject) => {
-        connection.query(queryString, (error, results) => {
-            if (error) reject(error);
-            else resolve(results); // Filter these results based on `user.User_Filter` if necessary
         });
     });
 }
