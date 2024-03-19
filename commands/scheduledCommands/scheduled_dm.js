@@ -31,16 +31,22 @@ module.exports = {
         				const datesArray = eventsArray.map(event => event.date);
                 const timesArray = eventsArray.map(event => event.time);
 
+                const idAndShortTitleArray = eventsArray.map(event => `${event.id}: ${event.name.slice(0, 20)}`);
+
+
         				const idsArrayString    = idsArray.map(item    => `${item}`).join('\n');
         				const titlesArrayString = titlesArray.map(item => `${item}`).join('\n');
         				const datesArrayString  = datesArray.map(item  => `${item}`).join('\n');
                 const timesArrayString  = timesArray.map(item  => `${item}`).join('\n');
 
+                const idAndShortTitleArrayString  = idAndShortTitleArray.map(item  => `${item}`).join('\n');
+
         				let embedMessage = new EmbedBuilder();
                 embedMessage.setTitle('Your Daily Report');
 
-        				embedMessage.addFields({ name:`IDs`, value:idsArrayString, inline:true});
-        				embedMessage.addFields({ name:`EVENTs`, value:titlesArrayString, inline:true});
+        				//embedMessage.addFields({ name:`IDs`, value:idsArrayString, inline:true});
+        				//embedMessage.addFields({ name:`EVENTs`, value:titlesArrayString, inline:true});
+                embedMessage.addFields({ name:`IDs - EVENTs`, value:idAndShortTitleArrayString, inline:true});
                 embedMessage.addFields({ name:`TIMEs`, value:timesArrayString, inline:true});
         				//embedMessage.addFields({ name:`DATEs`, value:datesArrayString, inline:true});
 
