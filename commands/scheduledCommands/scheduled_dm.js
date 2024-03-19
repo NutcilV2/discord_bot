@@ -57,9 +57,9 @@ module.exports = {
                 }
                 else {
                     if(unfilteredArrayList.length - idsArray.length > 0) {
-                        embedMessage.setDescription(`There are no events for you today`);
+                        embedMessage.addFields({ name: '\u200B', value:`There are no events for you today`} )
                     } else {
-                        embedMessage.setDescription(`There are no events today`);
+                        embedMessage.addFields({ name: '\u200B', value:`There are no events today`} )
                     }
                 }
 
