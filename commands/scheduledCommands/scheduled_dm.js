@@ -53,7 +53,7 @@ module.exports = {
         				const datesArray = eventsArray.map(event => event.date);
                 const timesArray = eventsArray.map(event => event.time);
 
-                const idAndShortTitleArray = eventsArray.map(event => `${event.id}: ${event.name.slice(0, 20)}`);
+                const idAndShortTitleArray = eventsArray.map(event => `${event.id}: ${event.name.slice(0, 17).trim()}...`);
 
 
         				const idsArrayString    = idsArray.map(item    => `${item}`).join('\n');
