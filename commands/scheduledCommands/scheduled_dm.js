@@ -14,6 +14,10 @@ module.exports = {
         const today = new Date();
         const formattedDate = (today.getMonth() + 1).toString().padStart(2, '0') + '/' + today.getDate().toString().padStart(2, '0') + '/' + today.getFullYear();
 
+        let queryString = `SELECT Event_Id, Event_Title, Event_Date FROM events WHERE Event_Date = ?`;
+        const result = await mysqlFunctions.runQuery(queryString, formattedDate);
+        console.log(result);
+
         try {
             const users = await fetchUsersWithDirectMsgEnabled(connection);
             for (const user of users) {
@@ -44,10 +48,18 @@ module.exports = {
         				let embedMessage = new EmbedBuilder();
                 embedMessage.setTitle('Your Daily Report');
 
+                if(idAndShortTitleArrayString) {
+                  embedMessage.addFields({ name:`IDs - EVENTs`, value:idAndShortTitleArrayString, inline:true});
+                  embedMessage.addFields({ name:`TIMEs`, value:timesArrayString, inline:true});
+                }
+                else {
+                  embedMessage.setDescription(`There are no events for you today`);
+                  embedMessage.addField('\u200B', `Other Events: ${}`)
+                }
+
         				//embedMessage.addFields({ name:`IDs`, value:idsArrayString, inline:true});
         				//embedMessage.addFields({ name:`EVENTs`, value:titlesArrayString, inline:true});
-                embedMessage.addFields({ name:`IDs - EVENTs`, value:idAndShortTitleArrayString, inline:true});
-                embedMessage.addFields({ name:`TIMEs`, value:timesArrayString, inline:true});
+
         				//embedMessage.addFields({ name:`DATEs`, value:datesArrayString, inline:true});
 
 								client.users.fetch(user.User_Id)
