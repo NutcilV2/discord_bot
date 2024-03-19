@@ -25,14 +25,14 @@ module.exports = {
             const users = await fetchUsersWithDirectMsgEnabled(connection);
             for (const user of users) {
                 let queryString = `SELECT Event_Id, Event_Title, Event_Date FROM events WHERE Event_Date = ?`;
-                const filterString = await mysqlFunctions.fetchUserFilters(user_id);
+                const filterString = user.User_Filter;
                 if(filterString) {
                     const parsed = mysqlFunctions.parseFilter(filterString);
                     const likeConditions = parsed.map(term  => `Event_Title LIKE '%${term}%'`);
                     queryString += ` AND (${likeConditions.join(' OR ')})`;
                 }
 
-                const blacklistString = await mysqlFunctions.fetchUserBlacklists(user_id);
+                const blacklistString = user.User_Blacklist;
                 if(blacklistString) {
                     const parsed = mysqlFunctions.parseFilter(blacklistString);
                     const likeConditions = parsed.map(term  => `Event_Title NOT LIKE '%${term}%'`);
