@@ -17,7 +17,7 @@ module.exports = {
         let queryString = `SELECT Event_Id FROM events WHERE Event_Date = ?`;
         const unfilteredSQL = await mysqlFunctions.runQuery(queryString, formattedDate);
 
-        const unfilteredArrayList = result.map(item => ({
+        const unfilteredArrayList = unfilteredSQL.map(item => ({
             id: item.Event_Id
         }));
 
