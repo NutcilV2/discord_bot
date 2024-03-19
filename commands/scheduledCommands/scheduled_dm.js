@@ -24,7 +24,7 @@ module.exports = {
         try {
             const users = await fetchUsersWithDirectMsgEnabled(connection);
             for (const user of users) {
-                let queryString = `SELECT Event_Id, Event_Title, Event_Date FROM events WHERE Event_Date = ?`;
+                let queryString = `SELECT Event_Id, Event_Title, Event_Date, Event_Time FROM events WHERE Event_Date = ?`;
                 const filterString = user.User_Filter;
                 if(filterString) {
                     const parsed = mysqlFunctions.parseFilter(filterString);
