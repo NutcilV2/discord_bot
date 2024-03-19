@@ -14,8 +14,12 @@ module.exports = {
         const today = new Date();
         const formattedDate = (today.getMonth() + 1).toString().padStart(2, '0') + '/' + today.getDate().toString().padStart(2, '0') + '/' + today.getFullYear();
 
-        let queryString = `SELECT Event_Id, Event_Title, Event_Date FROM events WHERE Event_Date = ?`;
-        const unfilteredArrayList = await mysqlFunctions.runQuery(queryString, formattedDate);
+        let queryString = `SELECT Event_Id FROM events WHERE Event_Date = ?`;
+        const unfilteredSQL = await mysqlFunctions.runQuery(queryString, formattedDate);
+
+        const unfilteredArrayList = result.map(item => ({
+            id: item.Event_Id
+        }));
 
         try {
             const users = await fetchUsersWithDirectMsgEnabled(connection);
