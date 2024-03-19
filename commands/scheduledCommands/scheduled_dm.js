@@ -54,7 +54,7 @@ module.exports = {
                 }
                 else {
                   embedMessage.setDescription(`There are no events for you today`);
-                  embedMessage.addField('\u200B', `Other Events: ${}`)
+                  embedMessage.addField('\u200B', `Other Events: ${10}`)
                 }
 
         				//embedMessage.addFields({ name:`IDs`, value:idsArrayString, inline:true});
