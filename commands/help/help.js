@@ -14,14 +14,14 @@ module.exports = {
             .setTitle('EventBot Help Guide')
             .setDescription('Heres how you can use me to find and manage events:')
             .setColor('#5E35B1') // Error color
-            .addFields(name="📅 Get Events", value="`!events [date]` - Retrieves events for a specific date.", inline=false)
-            .addFields(name="🔍 Set Filters", value="`!setfilter [type]` - Sets a filter to customize the events you see.", inline=false)
-            .addFields(name="🚫 Manage Blacklist", value="`!blacklist [add/remove] [keyword]` - Manages your blacklist of unwanted event types.", inline=false)
-            .addFields(name="📢 Daily Digest", value="`!daily` - Opt in/out of daily event notifications.", inline=false)
-            .addFields(name="🔖 Event Prefix", value="`!prefix [prefix]` - Sets a prefix for events from your server.", inline=false)
-            .addFields(name="ℹ️ Your Settings", value="`!info` - Displays your current filters and blacklist settings.", inline=false)
-            .addFields(name="🆘 Help", value="`!help` - Shows this message. Use `!help [command]` for detailed info on a command.", inline=false)
-            .addFields(text="Need more help? Reply here or contact the admin!");
+            .addFields({name:"📅 Get Events", value:"`!events [date]` - Retrieves events for a specific date.", inline:false})
+            .addFields({name:"🔍 Set Filters", value:"`!setfilter [type]` - Sets a filter to customize the events you see.", inline:false})
+            .addFields({name:"🚫 Manage Blacklist", value:"`!blacklist [add/remove] [keyword]` - Manages your blacklist of unwanted event types.", inline:false})
+            .addFields({name:"📢 Daily Digest", value:"`!daily` - Opt in/out of daily event notifications.", inline:false})
+            .addFields({name:"🔖 Event Prefix", value:"`!prefix [prefix]` - Sets a prefix for events from your server.", inline:false})
+            .addFields({name:"ℹ️ Your Settings", value:"`!info` - Displays your current filters and blacklist settings.", inline:false})
+            .addFields({name:"🆘 Help", value:"`!help` - Shows this message. Use `!help [command]` for detailed info on a command.", inline:false})
+            .addFields({value:"Need more help? Reply here or contact the admin!"});
 j
         await interaction.reply({ embeds: [embed] });
     },
