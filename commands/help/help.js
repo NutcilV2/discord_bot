@@ -27,6 +27,10 @@ module.exports = {
 
         // Add reactions to the reply message
         try {
+            if (!replyMessage.channel) {
+                // Fetch the channel explicitly if not cached
+                await replyMessage.fetch();
+            }
             await replyMessage.react('👍');
             await replyMessage.react('👎');
         } catch (error) {
