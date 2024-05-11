@@ -16,8 +16,9 @@ config();
 const client = new Client({
 		intents: [
 				GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.DirectMessages
+				GatewayIntentBits.GuildMessages,
+				GatewayIntentBits.MessageContent,
+				GatewayIntentBits.DirectMessages
 		],
 		partials: [
 				'MESSAGE', 'CHANNEL', 'REACTION'
