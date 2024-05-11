@@ -23,7 +23,7 @@ module.exports = {
             .addFields({name:"🆘 Help", value:"`!help` - Shows this message. Use `!help [command]` for detailed info on a command.", inline:false})
             .setFooter({text:"MessageID:HelpGuide; Need more help? Reply here or contact the admin!"});
 
-        await interaction.reply({ embeds: [embed] });
+        const replyMessage = await interaction.reply({ embeds: [embed], fetchReply: true });
 
         // Add reactions to the reply message
         try {
