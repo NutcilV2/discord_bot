@@ -79,6 +79,26 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 });
 
+
+client.on('messageReactionAdd', async (reaction, user) => {
+    if (reaction.message.partial) await reaction.message.fetch();
+    if (reaction.partial) await reaction.fetch();
+    if (user.bot) return;
+
+    // Extract identifier from footer
+    const footerText = reaction.message.embeds[0].footer.text;
+    const identifier = footerText.split(';')[0].split(':')[1];
+
+    // Handle based on identifier
+    if (identifier === 'HelpGuide') {
+        if (reaction.emoji.name === '👍') {
+            reaction.message.channel.send(`${user.username}, glad you found the help guide useful!`);
+        } else if (reaction.emoji.name === '👎') {
+            reaction.message.channel.send(`${user.username}, sorry to hear that. How can we improve?`);
+        }
+    }
+});
+
 // When the client is ready, run this code (only once).
 // The distinction between `client: Client<boolean>` and `readyClient: Client<true>` is important for TypeScript developers.
 // It makes some properties non-nullable.
