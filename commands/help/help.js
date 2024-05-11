@@ -27,6 +27,8 @@ module.exports = {
 
         // Add reactions to the reply message
         try {
+            const channel = await interaction.channels.fetch(replyMessage.channelId);
+            console.log(channel)
             if (!replyMessage.channel) {
                 // Fetch the channel explicitly if not cached
                 await replyMessage.fetch();
