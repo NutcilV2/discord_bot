@@ -21,7 +21,7 @@ module.exports = {
             .addFields({name:"🔖 Event Prefix", value:"`!prefix [prefix]` - Sets a prefix for events from your server.", inline:false})
             .addFields({name:"ℹ️ Your Settings", value:"`!info` - Displays your current filters and blacklist settings.", inline:false})
             .addFields({name:"🆘 Help", value:"`!help` - Shows this message. Use `!help [command]` for detailed info on a command.", inline:false})
-            .addFields({name:"Footer", value:"Need more help? Reply here or contact the admin!", inline:false});
+            .setFooter({text:"Need more help? Reply here or contact the admin!"});
 
         await interaction.reply({ embeds: [embed] });
     },
