@@ -83,10 +83,11 @@ module.exports = {
 
     				let embedMessage = new EmbedBuilder();
     				embedMessage.setAuthor({ name: user_username, iconUrl: interaction.user.avatarURL()});
+            console.log(idsArrayString)
 
-    				embedMessage.addFields({ name:'IDs', value:idsArrayString, inline:true});
-    				embedMessage.addFields({ name:'TITLEs', value:titlesArrayString, inline:true});
-    				embedMessage.addFields({ name:'DATEs', value:datesArrayString, inline:true});
+    				embedMessage.addFields({ name:`IDs`, value:idsArrayString, inline:true});
+    				embedMessage.addFields({ name:`TITLEs`, value:titlesArrayString, inline:true});
+    				embedMessage.addFields({ name:`DATEs`, value:datesArrayString, inline:true});
 
 
             // Ensure results are formatted in a way that can be sent in a message
