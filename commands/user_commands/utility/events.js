@@ -83,7 +83,7 @@ module.exports = {
 
     				let embedMessage = new EmbedBuilder();
             if(idsArrayString.length == 0) {
-              console.log(colors.errorColor);)
+              console.log(colors.errorColor);
               embedMessage.setColor('#DD6253')
               embedMessage.addFields({ name:`Alert: `, value:`No Events for ${formattedDate}`, inline:false});
             }
