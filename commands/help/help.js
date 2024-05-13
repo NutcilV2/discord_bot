@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const mysqlFunctions = require('../../utility/mysqlFunctions');
+const colors = require('../../utility/colors');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -13,7 +14,7 @@ module.exports = {
         const embed = new EmbedBuilder()
             .setTitle('EventBot Help Guide')
             .setDescription('Heres how you can use me to find and manage events:')
-            .setColor('#5E35B1') // Error color
+            .setColor(colors.defaultColor) // Error color
             .addFields({name:"📅 Get Events", value:"`!events [date]` - Retrieves events for a specific date.", inline:false})
             .addFields({name:"🔍 Set Filters", value:"`!setfilter [type]` - Sets a filter to customize the events you see.", inline:false})
             .addFields({name:"🚫 Manage Blacklist", value:"`!blacklist [add/remove] [keyword]` - Manages your blacklist of unwanted event types.", inline:false})
