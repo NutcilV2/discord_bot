@@ -25,18 +25,5 @@ module.exports = {
             .setFooter({text:"MessageID:HelpGuide; Need more help? Reply here or contact the admin!"});
 
         const replyMessage = await interaction.reply({ embeds: [embed], fetchReply: true });
-
-        // Add reactions to the reply message
-        try {
-            console.log(channel)
-            if (!replyMessage.channel) {
-                // Fetch the channel explicitly if not cached
-                await replyMessage.fetch();
-            }
-            await replyMessage.react('👍');
-            await replyMessage.react('👎');
-        } catch (error) {
-            console.error('Failed to react to help message:', error);
-        }
     },
 };
