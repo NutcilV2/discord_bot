@@ -84,7 +84,7 @@ module.exports = {
     				let embedMessage = new EmbedBuilder();
             if(idsArrayString.length == 0) {
               embedMessage.setColor(colors.errorColor);
-              embedMessage.addFields({ name:`📢 **Alert: **`, value:`🚫 No Events for ${formattedDate}`, inline:false});
+              embedMessage.addFields({ name:`📢 #**Alert: **`, value:`🚫 No Events for ${formattedDate}`, inline:false});
             }
             else {
               embedMessage.setColor(colors.defaultColor);
