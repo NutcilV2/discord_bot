@@ -83,12 +83,11 @@ module.exports = {
 
     				let embedMessage = new EmbedBuilder();
             if(idsArrayString.length == 0) {
-              console.log(colors.errorColor);
-              embedMessage.setColor('#DD6253')
+              embedMessage.setColor(colors.errorColor);
               embedMessage.addFields({ name:`Alert: `, value:`No Events for ${formattedDate}`, inline:false});
             }
             else {
-              embedMessage.setColor('#5E35B1')
+              embedMessage.setColor(colors.defaultColor);
               embedMessage.addFields({ name:`IDs`, value:idsArrayString, inline:true});
       				embedMessage.addFields({ name:`TITLEs`, value:titlesArrayString, inline:true});
       				embedMessage.addFields({ name:`DATEs`, value:datesArrayString, inline:true});
