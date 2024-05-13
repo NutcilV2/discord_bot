@@ -63,7 +63,6 @@ module.exports = {
             }
 
             const result = await mysqlFunctions.runQuery(queryString, formattedDate);
-            console.log(result);
 
             // Format the result for display
             //const formattedResult = result.map(row => `${row.Event_Id}: ${row.Event_Title}`).join('\n');
@@ -84,11 +83,12 @@ module.exports = {
 
     				let embedMessage = new EmbedBuilder();
             if(idsArrayString.length == 0) {
-              embedMessage.setColor(colors.errorColor)
+              console.log(colors.errorColor);)
+              embedMessage.setColor('#DD6253')
               embedMessage.addFields({ name:`Alert: `, value:`No Events for ${formattedDate}`, inline:false});
             }
             else {
-              embedMessage.setColor(colors.defaultColor)
+              embedMessage.setColor('#5E35B1')
               embedMessage.addFields({ name:`IDs`, value:idsArrayString, inline:true});
       				embedMessage.addFields({ name:`TITLEs`, value:titlesArrayString, inline:true});
       				embedMessage.addFields({ name:`DATEs`, value:datesArrayString, inline:true});
