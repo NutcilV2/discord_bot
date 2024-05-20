@@ -67,14 +67,16 @@ module.exports = {
                 embedMessage.setTitle('Your Daily Report');
 
                 if(idAndShortTitleArrayString) {
+                    embedMessage.setColor(colors.defaultColor);
                     embedMessage.addFields({ name:`IDs - EVENTs`, value:idAndShortTitleArrayString, inline:true});
                     embedMessage.addFields({ name:`TIMEs`, value:timesArrayString, inline:true});
                 }
                 else {
+                    embedMessage.setColor(colors.errorColor);
                     if(unfilteredArrayList.length - idsArray.length > 0) {
-                        embedMessage.setDescription(`There are no events for you today`);
+                        embedMessage.addFields({ name:`📢 **Alert: **`, value:`🚫 No Events for you today, ${formattedDate}`, inline:false});
                     } else {
-                        embedMessage.setDescription(`There are no events today`);
+                        embedMessage.addFields({ name:`📢 **Alert: **`, value:`🚫 No Events today, ${formattedDate}`, inline:false});
                     }
                 }
 
