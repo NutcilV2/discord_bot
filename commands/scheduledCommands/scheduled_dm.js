@@ -65,14 +65,13 @@ module.exports = {
 
         				let embedMessage = new EmbedBuilder();
                 embedMessage.setTitle('Your Daily Report');
+                embedMessage.setColor(colors.dailyReportMessage);
 
                 if(idAndShortTitleArrayString) {
-                    embedMessage.setColor(colors.defaultColor);
                     embedMessage.addFields({ name:`IDs - EVENTs`, value:idAndShortTitleArrayString, inline:true});
                     embedMessage.addFields({ name:`TIMEs`, value:timesArrayString, inline:true});
                 }
                 else {
-                    embedMessage.setColor(colors.errorColor);
                     if(unfilteredArrayList.length - idsArray.length > 0) {
                         embedMessage.addFields({ name:`📢 **Alert: **`, value:`🚫 No Events for you today, ${formattedDate}`, inline:false});
                     } else {
@@ -81,7 +80,7 @@ module.exports = {
                 }
 
                 if(unfilteredArrayList.length - idsArray.length > 0) {
-                    embedMessage.addFields({ name: '\u200B', value:`There are ${unfilteredArrayList.length - idsArray.length} other events going on today`} )
+                    embedMessage.setFooter({text:`There are ${unfilteredArrayList.length - idsArray.length} other events going on today`});
                 }
 
         				//embedMessage.addFields({ name:`IDs`, value:idsArrayString, inline:true});
