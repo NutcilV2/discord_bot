@@ -107,7 +107,7 @@ client.once(Events.ClientReady, readyClient => {
 		console.log(`Ready! Logged in as ${readyClient.user.tag}`);
 	  console.log(`${TOKEN}`)
 
-		// Schedule a task to run at 14:00 every day
+		// Schedule a task to  run at 00:00 every day
 		schedule.scheduleJob('00 00 * * *', function() {
     //schedule.scheduleJob('* * * * *', function() {
         console.log('Running scheduled Direct Message task...');

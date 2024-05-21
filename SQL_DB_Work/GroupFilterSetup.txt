@@ -1,0 +1,7 @@
+USE discord_db;
+CREATE TABLE groupedFilters (
+	  Group_Id VARCHAR(15) PRIMARY KEY,
+    Group_Name VARCHAR(255) NOT NULL,
+		Filters VARCHAR(1000) NOT NULL,
+		Creator_Id VARCHAR(25) NOT NULL
+);
