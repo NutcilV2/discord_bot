@@ -134,7 +134,7 @@ function createGroupedFilter(group_id, group_name, filters, creator_id) {
         const sql = `
             INSERT INTO groupedFilters (Group_Id, Group_Name, Filters, Creator_Id)
             VALUES (?, ?, ?, ?)
-            ON DUPLICATE KEY UPDATE User_Blacklist = ?;
+            ON DUPLICATE KEY UPDATE Filters = ?;
         `;
         connection.query(sql, [group_id, group_name, filters, creator_id], (error, results) => {
             if (error) {
@@ -267,7 +267,7 @@ module.exports = {
     updateUserBlacklist,
 
     getNextGroupId,
-    createGroupedFilter,    
+    createGroupedFilter,
 
     updateUserDirectMsg,
 
