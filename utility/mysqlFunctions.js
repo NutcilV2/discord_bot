@@ -266,6 +266,9 @@ module.exports = {
     fetchUserBlacklists,
     updateUserBlacklist,
 
+    getNextGroupId,
+    createGroupedFilter,    
+
     updateUserDirectMsg,
 
     addEvent,
