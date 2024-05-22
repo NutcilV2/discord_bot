@@ -7,7 +7,7 @@ module.exports = {
         .setName('create_grouped_filter')
         .setDescription('Adds specified filter(s) from your list')
         .addStringOption(option =>
-            option.setName('Group Name')
+            option.setName('group_name')
                 .setDescription('The name of the group')
                 .setRequired(true))
         .addStringOption(option =>
@@ -17,7 +17,7 @@ module.exports = {
     async execute(interaction, connection, cachedUsers) {
         const user_id = interaction.user.id;
         const isCached = await cachedUsers.isUserCached(user_id, user_username);
-        const group_name = interaction.options.getString('Group Name');
+        const group_name = interaction.options.getString('group_name');
         const rawInput = interaction.options.getString('filter');
         let filtersToGroup = sanitizeInput(rawInput)
 
