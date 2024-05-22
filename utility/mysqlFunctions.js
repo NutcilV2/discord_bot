@@ -112,6 +112,44 @@ function updateUserBlacklist(user_id, user_username, blacklist) {
 
 
 
+function getNextGroupId() {
+    return new Promise((resolve, reject) => {
+        const sql = `
+            SELECT MAX(CAST(Group_Id AS UNSIGNED)) AS maxGroupId FROM groupedFilters;
+        `;
+        connection.query(sql, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                const maxGroupId = results[0].maxGroupId;
+                const nextGroupId = maxGroupId ? maxGroupId + 1 : 1; // Default to 1 if no rows exist
+                resolve(nextGroupId);
+            }
+        });
+    });
+}
+
+function createGroupedFilter(group_id, group_name, filters, creator_id) {
+    return new Promise((resolve, reject) => {
+        const sql = `
+            INSERT INTO groupedFilters (Group_Id, Group_Name, Filters, Creator_Id)
+            VALUES (?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE User_Blacklist = ?;
+        `;
+        connection.query(sql, [group_id, group_name, filters, creator_id], (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+}
+
+
+
+
+
 function updateUserDirectMsg(user_id, user_username, user_directmsg) {
     return new Promise((resolve, reject) => {
         const sql = `
