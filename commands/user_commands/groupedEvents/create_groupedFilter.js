@@ -23,7 +23,8 @@ module.exports = {
         let filtersToGroup = sanitizeInput(rawInput)
 
         try {
-            const group_id = mysqlFunctions.getNextGroupId()
+            const group_id = mysqlFunctions.getNextGroupId();
+            console.log(group_id);
             await mysqlFunctions.createGroupedFilter(group_id, group_name, filtersToGroup, user_id);
             await interaction.reply(`The specified filters have been turned into a group`);
         } catch (error) {
