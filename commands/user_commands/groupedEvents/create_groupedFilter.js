@@ -16,6 +16,7 @@ module.exports = {
                 .setRequired(true)), // Make sure the filter is required for command execution
     async execute(interaction, connection, cachedUsers) {
         const user_id = interaction.user.id;
+        const user_username = interaction.user.username;
         const isCached = await cachedUsers.isUserCached(user_id, user_username);
         const group_name = interaction.options.getString('group_name');
         const rawInput = interaction.options.getString('filter');
