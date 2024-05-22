@@ -4,7 +4,7 @@ const mysqlFunctions = require('../../../utility/mysqlFunctions');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('create_groupedFilter')
+        .setName('create_grouped_filter')
         .setDescription('Adds specified filter(s) from your list')
         .addStringOption(option =>
             option.setName('Group Name')
