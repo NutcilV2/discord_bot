@@ -136,7 +136,7 @@ function createGroupedFilter(group_id, group_name, filters, creator_id) {
             VALUES (?, ?, ?, ?)
             ON DUPLICATE KEY UPDATE Filters = ?;
         `;
-        connection.query(sql, [group_id, group_name, filters, creator_id], (error, results) => {
+        connection.query(sql, [group_id, group_name, filters, creator_id, filters], (error, results) => {
             if (error) {
                 reject(error);
             } else {
