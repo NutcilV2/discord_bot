@@ -24,7 +24,6 @@ module.exports = {
 
         try {
             const group_id = await mysqlFunctions.getNextGroupId();
-            console.log(group_id);
             await mysqlFunctions.createGroupedFilter(group_id, group_name, filtersToGroup, user_id);
             await interaction.reply(`The specified filters have been turned into a group`);
         } catch (error) {
