@@ -11,7 +11,8 @@ const connection = mysql.createConnection({
   host: 'localhost',
   user: 'discord',
   password: db_password,
-  database: 'discord_db'
+  database: 'discord_db',
+  connectTimeout: 10000
 });
 
 // Open the MySQL connection
